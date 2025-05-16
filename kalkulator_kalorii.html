@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadłospis Madzi - Planer</title>
+    <style>
+        :root {
+            --font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Jasny motyw */
+            --bg-color-light: #f0f4f8; --container-bg-color-light: #ffffff; --section-bg-color-light: #fdfdff;
+            --text-color-light: #2c3e50; --header-text-color-light: #1a2533; --accent-color-light: #007bff;
+            --accent-hover-color-light: #005ec4; --border-color-light: #d1d9e6; 
+            --calorie-color-light: #e74c3c; /* Czerwono-pomarańczowy dla kalorii w trybie jasnym */
+            --calorie-exceeded-color-light: #d32f2f; --button-save-bg-light: #28a745;
+            --button-save-hover-bg-light: #1e7e34; --button-load-bg-light: #007bff;
+            --button-load-hover-bg-light: #005ec4; --button-cancel-bg-light: #6c757d;
+            --button-cancel-hover-bg-light: #545b62; --button-remove-bg-light: #dc3545;
+            --button-remove-hover-bg-light: #c82333;
+            --button-shopping-actions-bg-light: #6f42c1; 
+            --button-shopping-actions-hover-bg-light: #5a2fa3;
+            --button-custom-add-bg-light: #ffc107;
+            --button-custom-add-hover-bg-light: #e0a800; --daily-total-bg-light: #e6f7ff;
+            --daily-total-border-light: #b3e0ff; --daily-total-text-light: #004c80;
+            --daily-total-span-light: var(--accent-color-light); --shadow-color-light: rgba(44, 62, 80, 0.15);
+            --input-bg-color-light: #fff; --input-border-color-light: #b0bec5; --input-focus-border-light: var(--accent-color-light);
+            --theme-toggle-track-bg-light: #ccc; --theme-toggle-slider-light: #fff; --theme-toggle-icon-light: "🌙";
+            --shopping-list-bg-light: #f0f4ff; 
+            --shopping-list-border-light: #d1d9ff;
+            --modal-bg-light: rgba(0,0,0,0.4); --modal-content-bg-light: #ffffff;
+            --custom-list-item-bg-light: #e9ecef; --optgroup-label-color-light: #0056b3;
+            --button-border-radius: 20px; 
+            --greeting-name-color-light: var(--accent-color-light);
+
+            /* Ciemny motyw */
+            --bg-color-dark: #121212; --container-bg-color-dark: #1e1e1e; --section-bg-color-dark: #2a2a2a;
+            --text-color-dark: #e0e0e0; --header-text-color-dark: #ffffff; --accent-color-dark: #36a1ff;
+            --greeting-name-color-dark: var(--accent-color-dark);
+            --accent-hover-color-dark: #57baff; --border-color-dark: #424242; 
+            --calorie-color-dark: #ffc107; /* Żółty dla kalorii w trybie ciemnym */
+            --calorie-exceeded-color-dark: #f44336; --button-save-bg-dark: #4caf50;
+            --button-save-hover-bg-dark: #388e3c; --button-load-bg-dark: #2196f3;
+            --button-load-hover-bg-dark: #1976d2; --button-cancel-bg-dark: #757575;
+            --button-cancel-hover-bg-dark: #616161; --button-remove-bg-dark: #f44336;
+            --button-remove-hover-bg-dark: #d32f2f;
+            --button-shopping-actions-bg-dark: #9370db; 
+            --button-shopping-actions-hover-bg-dark: #825fbf;
+            --button-custom-add-bg-dark: #ffca28;
+            --button-custom-add-hover-bg-dark: #ffb300; --daily-total-bg-dark: #212936;
+            --daily-total-border-dark: #37474f; --daily-total-text-dark: #90cdf4;
+            --daily-total-span-dark: var(--accent-color-dark); --shadow-color-dark: rgba(0,0,0,0.4);
+            --input-bg-color-dark: #333333; --input-border-color-dark: #555555; --input-focus-border-dark: var(--accent-color-dark);
+            --theme-toggle-track-bg-dark: #555; --theme-toggle-slider-dark: #e0e0e0; --theme-toggle-icon-dark: "☀️";
+            --shopping-list-bg-dark: #1c232e; --shopping-list-border-dark: #2d3748;
+            --modal-bg-dark: rgba(0,0,0,0.6); --modal-content-bg-dark: #2a2a2a;
+            --custom-list-item-bg-dark: #3b3b3b; --optgroup-label-color-dark: #63b3ed;
+        }
+
+        body { 
+            --bg-color: var(--bg-color-light); --container-bg-color: var(--container-bg-color-light);
+            --section-bg-color: var(--section-bg-color-light); --text-color: var(--text-color-light);
+            --header-text-color: var(--header-text-color-light); --accent-color: var(--accent-color-light);
+            --accent-hover-color: var(--accent-hover-color-light); --border-color: var(--border-color-light);
+            --calorie-color: var(--calorie-color-light); 
+            --calorie-exceeded-color: var(--calorie-exceeded-color-light);
+            --greeting-name-color: var(--greeting-name-color-light);
+            --button-save-bg: var(--button-save-bg-light); --button-save-hover-bg: var(--button-save-hover-bg-light);
+            --button-load-bg: var(--button-load-bg-light); --button-load-hover-bg: var(--button-load-hover-bg-light);
+            --button-cancel-bg: var(--button-cancel-bg-light); --button-cancel-hover-bg: var(--button-cancel-hover-bg-light);
+            --button-remove-bg: var(--button-remove-bg-light); --button-remove-hover-bg: var(--button-remove-hover-bg-light);
+            --button-shopping-actions-bg: var(--button-shopping-actions-bg-light); --button-shopping-actions-hover-bg: var(--button-shopping-actions-hover-bg-light);
+            --button-custom-add-bg: var(--button-custom-add-bg-light); --button-custom-add-hover-bg: var(--button-custom-add-hover-bg-light);
+            --daily-total-bg: var(--daily-total-bg-light); --daily-total-border: var(--daily-total-border-light);
+            --daily-total-text: var(--daily-total-text-light); --daily-total-span: var(--daily-total-span-light);
+            --shadow-color: var(--shadow-color-light); --input-bg-color: var(--input-bg-color-light);
+            --input-border-color: var(--input-border-color-light); --input-focus-border: var(--input-focus-border-light);
+            --theme-toggle-track-bg: var(--theme-toggle-track-bg-light); --theme-toggle-slider: var(--theme-toggle-slider-light); --theme-toggle-icon: var(--theme-toggle-icon-light);
+            --shopping-list-bg: var(--shopping-list-bg-light); --shopping-list-border: var(--shopping-list-border-light);
+            --modal-bg: var(--modal-bg-light); --modal-content-bg: var(--modal-content-bg-light);
+            --custom-list-item-bg: var(--custom-list-item-bg-light); --optgroup-label-color: var(--optgroup-label-color-light);
+        }
+        body.dark-mode { 
+            --bg-color: var(--bg-color-dark); --container-bg-color: var(--container-bg-color-dark);
+            --section-bg-color: var(--section-bg-color-dark); --text-color: var(--text-color-dark);
+            --header-text-color: var(--header-text-color-dark); --accent-color: var(--accent-color-dark);
+            --accent-hover-color: var(--accent-hover-color-dark); --border-color: var(--border-color-dark);
+            --calorie-color: var(--calorie-color-dark); 
+            --calorie-exceeded-color: var(--calorie-exceeded-color-dark);
+            --greeting-name-color: var(--greeting-name-color-dark);
+            --button-save-bg: var(--button-save-bg-dark); --button-save-hover-bg: var(--button-save-hover-bg-dark);
+            --button-load-bg: var(--button-load-bg-dark); --button-load-hover-bg: var(--button-load-hover-bg-dark);
+            --button-cancel-bg: var(--button-cancel-bg-dark); --button-cancel-hover-bg: var(--button-cancel-hover-bg-dark);
+            --button-remove-bg: var(--button-remove-bg-dark); --button-remove-hover-bg: var(--button-remove-hover-bg-dark);
+            --button-shopping-actions-bg: var(--button-shopping-actions-bg-dark); --button-shopping-actions-hover-bg: var(--button-shopping-actions-hover-bg-dark);
+            --button-custom-add-bg: var(--button-custom-add-bg-dark); --button-custom-add-hover-bg: var(--button-custom-add-hover-bg-dark);
+            --daily-total-bg: var(--daily-total-bg-dark); --daily-total-border: var(--daily-total-border-dark);
+            --daily-total-text: var(--daily-total-text-dark); --daily-total-span: var(--daily-total-span-dark);
+            --shadow-color: var(--shadow-color-dark); --input-bg-color: var(--input-bg-color-dark);
+            --input-border-color: var(--input-border-color-dark); --input-focus-border: var(--input-focus-border-dark);
+            --theme-toggle-track-bg: var(--theme-toggle-track-bg-dark); --theme-toggle-slider: var(--theme-toggle-slider-dark); --theme-toggle-icon: var(--theme-toggle-icon-dark);
+            --shopping-list-bg: var(--shopping-list-bg-dark); --shopping-list-border: var(--shopping-list-border-dark);
+            --modal-bg: var(--modal-bg-dark); --modal-content-bg: var(--modal-content-bg-dark);
+            --custom-list-item-bg: var(--custom-list-item-bg-dark); --optgroup-label-color: var(--optgroup-label-color-dark);
+        }
+        body { 
+            font-family: var(--font-family); margin: 0; padding: 20px;
+            background-color: var(--bg-color); color: var(--text-color);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"], select {
+            padding: 10px 12px; border-radius: var(--button-border-radius); border: 1px solid var(--input-border-color);
+            background-color: var(--input-bg-color); color: var(--text-color);
+            font-size: 0.95em; box-sizing: border-box;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease;
+            width: 100%; 
+        }
+        input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, select:focus {
+            outline: none;
+            border-color: var(--input-focus-border);
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--input-focus-border) 30%, transparent);
+        }
+
+        .theme-switch-wrapper { display: flex; align-items: center; margin-left: 15px; }
+        .theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
+        .theme-switch input { display: none; }
+        .slider {
+            background-color: var(--theme-toggle-track-bg); 
+            bottom: 0; cursor: pointer; left: 0;
+            position: absolute; right: 0; top: 0; transition: .4s;
+            border-radius: 26px;
+        }
+        .slider:before {
+            background-color: var(--theme-toggle-slider); bottom: 3px; content: var(--theme-toggle-icon);
+            height: 20px; left: 4px; position: absolute; transition: .4s; width: 20px;
+            border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px;
+            color: var(--theme-toggle-track-bg); 
+        }
+        input:checked + .slider:before { transform: translateX(23px); }
+
+        .top-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 20px; padding: 10px 15px; 
+            background-color: var(--container-bg-color); border-radius: var(--button-border-radius);
+            box-shadow: 0 2px 8px var(--shadow-color);
+        }
+        .app-header {
+            flex-grow: 1; text-align: left; 
+            font-size: 1.15em; font-weight: 500; color: var(--header-text-color);
+            padding-right: 15px; 
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+        }
+        .top-bar-actions { display: flex; align-items: center; gap: 10px; }
+        .top-bar .action-button { padding: 8px 15px; font-size: 0.9em; white-space: nowrap; } 
+        
+        .action-button {
+            padding: 10px 20px; color: white;
+            border: none; border-radius: var(--button-border-radius); cursor: pointer; font-weight: 500;
+            font-size: 0.95em; text-align: center;
+            transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+            box-shadow: 0 1px 3px var(--shadow-color);
+        }
+        .action-button:hover { transform: translateY(-1px); box-shadow: 0 2px 6px var(--shadow-color); }
+        .action-button:active { transform: translateY(0px); box-shadow: 0 1px 3px var(--shadow-color); }
+
+        .controls-section { 
+            display: flex; flex-direction: column; gap: 15px;
+            margin-bottom: 25px; padding: 15px;
+            background-color: var(--section-bg-color); border-radius: var(--button-border-radius);
+            box-shadow: 0 2px 6px var(--shadow-color);
+        }
+        .control-group { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; align-items: center; }
+        .control-group h3 { width: 100%; text-align: center; margin-bottom:10px; color: var(--header-text-color); }
+
+        #open-custom-ingredient-modal-button { background-color: var(--button-custom-add-bg); color: #212529; }
+        #open-custom-ingredient-modal-button:hover { background-color: var(--button-custom-add-hover-bg); }
+        body.dark-mode #open-custom-ingredient-modal-button { color: #212529; }
+
+        #save-button { background-color: var(--button-save-bg); }
+        #save-button:hover { background-color: var(--button-save-hover-bg); }
+        #load-button-label { background-color: var(--button-load-bg); }
+        #load-button-label:hover { background-color: var(--button-load-hover-bg); }
+        
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--modal-bg); display: none; justify-content: center; align-items: center;
+            z-index: 2000; transition: opacity 0.3s ease; opacity: 0; padding: 15px; box-sizing: border-box;
+        }
+        .modal.visible { opacity: 1; display: flex; }
+        .modal-content {
+            background-color: var(--modal-content-bg); padding: 25px 30px; border-radius: var(--button-border-radius);
+            box-shadow: 0 5px 20px var(--shadow-color); text-align: center;
+            width: 100%; max-width: 480px;
+            border: 1px solid var(--border-color);
+        }
+        .modal-content h3 {
+            margin-top: 0; margin-bottom: 20px; color: var(--header-text-color); font-size: 1.4em;
+        }
+        #custom-ingredient-modal-form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        #custom-ingredient-modal-form div { display: flex; flex-direction: column; }
+        #custom-ingredient-modal-form label { text-align: left; font-weight: 500; margin-bottom: 4px; font-size: 0.9em;}
+        #custom-ingredient-modal-form input { width: 100%; }
+
+         .modal-buttons { display: flex; justify-content: center; gap: 15px; margin-top:15px;}
+        .modal-buttons button { flex-grow: 1; max-width: 200px; }
+
+        #confirm-save-date { background-color: var(--button-save-bg); }
+        #confirm-save-date:hover { background-color: var(--button-save-hover-bg); }
+        #cancel-save-date { background-color: var(--button-cancel-bg); }
+        #cancel-save-date:hover { background-color: var(--button-cancel-hover-bg); }
+        #add-custom-ingredient-confirm-button { background-color: var(--button-save-bg); }
+        #add-custom-ingredient-confirm-button:hover { background-color: var(--button-save-hover-bg); }
+        #close-custom-ingredient-modal-button { background-color: var(--button-cancel-bg); }
+        #close-custom-ingredient-modal-button:hover { background-color: var(--button-cancel-hover-bg); }
+
+        #session-custom-ingredients-list {
+            margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border-color);
+            text-align: left; max-height: 150px; overflow-y: auto;
+        }
+        #session-custom-ingredients-list h4 { margin-top:0; margin-bottom:10px; font-size: 1.1em; color: var(--header-text-color); }
+        #session-custom-ingredients-list ul { list-style-type: none; padding: 0; margin: 0; }
+        #session-custom-ingredients-list li {
+            background-color: var(--custom-list-item-bg); color: var(--text-color);
+            padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; font-size: 0.9em;
+        }
+
+        .container {
+            max-width: 900px; margin: 20px auto; background-color: var(--container-bg-color);
+            padding: 20px 30px; border-radius: var(--button-border-radius); box-shadow: 0 5px 25px var(--shadow-color);
+        }
+        h1 {
+            color: var(--header-text-color); text-align: center; font-size: 2.2em;
+            font-weight: 600; margin-bottom: 20px; line-height: 1.3; /* Dla lepszego układu dwóch linii */
+        }
+        h1 .greeting-name { color: var(--greeting-name-color); font-weight: 700; }
+        h1 .sub-greeting { font-size: 0.8em; font-weight: 400; display: block; margin-top: 2px;} /* Styl dla drugiej linii */
+
+
+        .daily-total-calories {
+            background-color: var(--daily-total-bg); border: 1px solid var(--daily-total-border);
+            padding: 20px; margin: 0 auto 30px auto; border-radius: var(--button-border-radius);
+            text-align: center; box-shadow: 0 3px 10px var(--shadow-color); max-width: 500px;
+        }
+        .daily-total-calories p { margin: 0; font-size: 1.25em; font-weight: 500; color: var(--daily-total-text); }
+        .daily-total-calories .calorie-values { display: block; margin-top: 8px; font-size: 2.2em; font-weight: 700; }
+        .daily-total-calories #dzienna-suma-aktualna { color: var(--daily-total-span); }
+        .daily-total-calories #dzienna-suma-aktualna.calories-exceeded { color: var(--calorie-exceeded-color); }
+        .daily-total-calories .limit-text { color: var(--daily-total-text); font-size: 0.7em; font-weight: 500; margin-left: 5px; }
+
+        h2 {
+            color: var(--header-text-color); text-align: left;
+            border-bottom: 3px solid var(--accent-color); padding-bottom: 12px;
+            margin-top: 0; margin-bottom: 25px; font-size: 1.8em; font-weight: 600;
+        }
+        .meal-section {
+            background-color: var(--section-bg-color); border: 1px solid var(--border-color);
+            padding: 25px; margin-bottom: 35px; border-radius: var(--button-border-radius);
+            box-shadow: 0 3px 15px var(--shadow-color);
+        }
+        .ingredient-row {
+            display: flex; flex-wrap: wrap; align-items: flex-end; 
+            gap: 10px; 
+            margin-bottom: 18px; padding-bottom: 18px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        .ingredient-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        
+        .ingredient-row .input-group { 
+            display: flex; flex-direction: column;
+            flex: 1 1 180px; 
+            min-width: 130px;
+            gap: 4px; 
+        }
+        .ingredient-row label {
+            font-weight: 500; margin-bottom: 0; 
+            font-size: 0.9em; text-align: left;
+        }
+        .ingredient-row select {
+            appearance: none; -webkit-appearance: none; -moz-appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%232c3e50%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 10px 10px;
+            padding-right: 35px; 
+            width: 100%;
+        }
+        body.dark-mode .ingredient-row select {
+             background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23e0e0e0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+        }
+        .ingredient-row select optgroup { font-weight: bold; font-style: italic; color: var(--optgroup-label-color); }
+        .ingredient-row select option { background-color: var(--input-bg-color); color: var(--text-color); }
+
+        .ingredient-row input[type="number"].grams-input {
+             flex-grow: 0; 
+             max-width: 100%; 
+             min-width: 80px; 
+             width: 100%; 
+        }
+        .ingredient-actions { 
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            flex-basis: 100%; 
+            margin-top: 8px; 
+            gap: 10px;
+        }
+         .ingredient-row .calories-display {
+            text-align: left; 
+            font-weight: 600;
+            color: var(--calorie-color); 
+            font-size: 1.05em;
+            align-self: center; 
+            /* Usunięto padding-bottom, bo jest w .ingredient-actions */
+        }
+        .ingredient-row button.remove-btn {
+            padding: 8px 18px; /* Dostosowany padding */
+            background-color: var(--button-remove-bg);
+            color: white; 
+            align-self: center; 
+            margin: 0; 
+            width: auto; /* Automatyczna szerokość */
+        }
+
+        button.add-ingredient-btn {
+            display: block; width: fit-content; margin: 25px auto 10px;
+            padding: 12px 28px; background-color: var(--accent-color);
+            color: #ffffff;
+        }
+        .total-calories {
+            font-weight: 600; font-size: 1.3em; text-align: right;
+            margin-top: 25px; color: var(--text-color);
+        }
+        .total-calories span { color: var(--calorie-color); font-weight: 700; }
+
+        #shopping-list-section { margin-top: 40px; }
+        #shopping-list-controls-bottom {
+             display: flex; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 15px;
+        }
+        #shopping-list-controls-bottom .action-button { 
+            background-color: var(--button-shopping-actions-bg);
+        }
+        #shopping-list-controls-bottom .action-button:hover {
+            background-color: var(--button-shopping-actions-hover-bg);
+        }
+        #shopping-list-container {
+             padding: 25px; background-color: var(--shopping-list-bg);
+            border: 1px solid var(--shopping-list-border); border-radius: var(--button-border-radius);
+            box-shadow: 0 3px 15px var(--shadow-color); width: 100%; box-sizing: border-box;
+        }
+        #shopping-list-container h3 {
+            margin-top: 0; color: var(--header-text-color);
+            border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; font-size: 1.5em;
+        }
+        #shopping-list-display { list-style-type: "\1F6D2\00a0 "; padding-left: 25px; }
+        #shopping-list-display li { margin-bottom: 10px; font-size: 1.05em; line-height: 1.6; }
+        #save-shopping-list-button { 
+            margin-top: 20px; 
+            background-color: var(--button-shopping-actions-bg); 
+        }
+        #save-shopping-list-button:hover {
+            background-color: var(--button-shopping-actions-hover-bg);
+        }
+
+        @media (max-width: 767px) { 
+            .top-bar { flex-direction: column; gap: 10px; padding: 10px; }
+            .top-bar-actions { width: 100%; display: flex; justify-content: space-around; flex-wrap: wrap; gap: 8px;}
+            .top-bar .action-button { flex-grow: 1; margin: 0 5px; font-size: 0.85em; padding: 8px 10px; min-width: 100px; }
+            .theme-switch-wrapper { margin-left: 0; margin-top: 10px; }
+
+            .ingredient-row {
+                flex-direction: column;
+                align-items: stretch; 
+                gap: 15px; 
+            }
+            .ingredient-row .input-group {
+                width:100%; max-width: none; 
+            } 
+            .ingredient-row input[type="number"].grams-input { 
+                max-width: 100%; 
+            } 
+            /* Nowe style dla .ingredient-actions na małych ekranach */
+            .ingredient-row .ingredient-actions {
+                flex-direction: row; /* Kalorie i przycisk obok siebie */
+                justify-content: center; /* Wyśrodkuj grupę */
+                align-items: center;
+                gap: 15px; /* Odstęp między kaloriami a przyciskiem */
+                margin-top: 10px;
+            }
+            .ingredient-row .calories-display {
+                width: auto; /* Automatyczna szerokość */
+                text-align: left; /* Wyrównaj tekst kalorii do lewej w tej grupie */
+                margin-top: 0; 
+                padding: 0;
+                font-weight: bold;
+            }
+            .ingredient-row button.remove-btn {
+                width: auto; /* Automatyczna szerokość */
+                display: inline-block; /* Aby margin:auto nie działał, jest w flex */
+                margin: 0; 
+                padding: 8px 18px; 
+            }
+
+            .modal-content { padding: 20px; }
+            .modal-buttons { flex-direction: column; }
+            .modal-buttons button { width:100%; max-width: none; }
+        }
+        input[type="file"]#load-file-input { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <div id="app-header" class="app-header">Nowy Dzień - ...</div>
+    <div class="top-bar-actions">
+        <button type="button" id="save-button" class="action-button">Zapisz Dzień</button>
+        <input type="file" id="load-file-input" accept=".json">
+        <label for="load-file-input" id="load-button-label" class="action-button">Wczytaj Dzień</label>
+        <label class="theme-switch-wrapper">
+            <label class="theme-switch" for="theme-checkbox" title="Zmień motyw">
+                <input type="checkbox" id="theme-checkbox">
+                <span class="slider"></span>
+            </label>
+        </label>
+    </div>
+</div>
+
+<div class="container">
+    <h1>
+        <span class="greeting-name">Witaj Madzia!</span><br>
+        <span class="sub-greeting">Przygotuj swój jadłospis <span class="emoji-cook">🧑‍🍳</span></span>
+    </h1>
+
+    <div class="daily-total-calories">
+        <p>Łączna suma kalorii na dziś:
+            <span class="calorie-values">
+                <span id="dzienna-suma-aktualna">0</span><span class="limit-text"> / <span id="dzienna-suma-limit">1500</span> kcal</span>
+            </span>
+        </p>
+    </div>
+
+    <div class="controls-section">
+        <div class="control-group">
+             <button type="button" id="open-custom-ingredient-modal-button" class="action-button">Dodaj własny składnik</button>
+        </div>
+    </div>
+    
+    <div id="custom-ingredient-modal" class="modal">
+        <div class="modal-content">
+            <h3>Dodaj Własny Składnik</h3>
+            <form id="custom-ingredient-modal-form">
+                <div>
+                    <label for="custom-modal-ingredient-name">Nazwa składnika:</label>
+                    <input type="text" id="custom-modal-ingredient-name" placeholder="Np. Domowe ciasto" required>
+                </div>
+                <div>
+                    <label for="custom-modal-ingredient-calories">Kalorie na 100g:</label>
+                    <input type="number" id="custom-modal-ingredient-calories" placeholder="kcal" min="0" required>
+                </div>
+            </form>
+            <div id="session-custom-ingredients-list">
+                <h4>Dodane w tej sesji:</h4>
+                <ul></ul>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" id="add-custom-ingredient-confirm-button" class="action-button">Dodaj</button>
+                <button type="button" id="close-custom-ingredient-modal-button" class="action-button">Zamknij</button>
+            </div>
+        </div>
+    </div>
+
+     <div id="date-picker-modal" class="modal">
+        <div class="modal-content">
+            <h3>Wybierz datę dla jadłospisu:</h3>
+            <input type="date" id="save-date-picker">
+            <div class="modal-buttons">
+                <button type="button" id="confirm-save-date" class="action-button">Zapisz Jadłospis</button>
+                <button type="button" id="cancel-save-date" class="action-button">Anuluj</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="meal-section" id="sniadanie-sekcja">
+        <h2>Śniadanie</h2>
+        <div class="ingredients-container" id="sniadanie-skladniki"></div>
+        <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('sniadanie')">Dodaj Składnik</button>
+        <p class="total-calories">Suma śniadania: <span id="sniadanie-kalorie-suma">0</span> kcal</p>
+    </div>
+
+    <div class="meal-section" id="obiad-sekcja">
+        <h2>Obiad</h2>
+        <div class="ingredients-container" id="obiad-skladniki"></div>
+        <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('obiad')">Dodaj Składnik</button>
+        <p class="total-calories">Suma obiadu: <span id="obiad-kalorie-suma">0</span> kcal</p>
+    </div>
+
+     <div class="meal-section" id="przekaska-sekcja">
+        <h2>Przekąska</h2>
+        <div class="ingredients-container" id="przekaska-skladniki"></div>
+        <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('przekaska')">Dodaj Składnik</button>
+        <p class="total-calories">Suma przekąski: <span id="przekaska-kalorie-suma">0</span> kcal</p>
+    </div>
+
+    <div class="meal-section" id="kolacja-sekcja">
+        <h2>Kolacja</h2>
+        <div class="ingredients-container" id="kolacja-skladniki"></div>
+        <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('kolacja')">Dodaj Składnik</button>
+        <p class="total-calories">Suma kolacji: <span id="kolacja-kalorie-suma">0</span> kcal</p>
+    </div>
+
+    <div id="shopping-list-section">
+        <div id="shopping-list-controls-bottom" class="control-group">
+            <button type="button" id="generate-shopping-list-button" class="action-button">Generuj Listę Zakupów</button>
+        </div>
+        <div id="shopping-list-container" style="display: none;">
+            <h3>Lista Zakupów:</h3>
+            <ul id="shopping-list-display"></ul>
+            <button type="button" id="save-shopping-list-button" class="action-button" style="display: none;">Zapisz Listę Zakupów</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const poczatkowaBazaSkladnikow = { /* UZUPEŁNIJ DOKŁADNIE! To jest baza startowa. */
+        "platki owsiane":{kalorieNa100g:350},"mleko 2%":{kalorieNa100g:50},"napoj migdalowy":{kalorieNa100g:24},"banan":{kalorieNa100g:89},"jablko":{kalorieNa100g:52},"gruszka":{kalorieNa100g:57},"mandarynka":{kalorieNa100g:53},"orzechy wloskie":{kalorieNa100g:654},"migdaly":{kalorieNa100g:579},"rodzynki":{kalorieNa100g:299},"kakao (proszek)":{kalorieNa100g:228},"nasiona chia":{kalorieNa100g:486},"miod":{kalorieNa100g:304},"jogurt naturalny":{kalorieNa100g:61},"chleb pelnoziarnisty":{kalorieNa100g:250},"awokado":{kalorieNa100g:160},"jajko":{kalorieNa100g:143},"kasza peczak (sucha)":{kalorieNa100g:337},"kasza jeczmienna (sucha)":{kalorieNa100g:354},"kasza bulgur (sucha)":{kalorieNa100g:342},"kasza gryczana (sucha)":{kalorieNa100g:343},"kasza jaglana (sucha)":{kalorieNa100g:378},"ryz brazowy (suchy)":{kalorieNa100g:360},"makaron pelnoziarnisty (suchy)":{kalorieNa100g:350},"maka pszenna":{kalorieNa100g:364},"ziemniaki":{kalorieNa100g:77},"losos (surowy)":{kalorieNa100g:208},"dorsz (surowy)":{kalorieNa100g:82},"krewetki (gotowane)":{kalorieNa100g:99},"tofu naturalne":{kalorieNa100g:76},"soczewica czerwona (sucha)":{kalorieNa100g:353},"szpinak":{kalorieNa100g:23},"brokul":{kalorieNa100g:34},"papryka czerwona":{kalorieNa100g:31},"marchew":{kalorieNa100g:41},"cukinia":{kalorieNa100g:17},"cebula":{kalorieNa100g:40},"pomidor":{kalorieNa100g:18},"oliwa z oliwek":{kalorieNa100g:884},"ser feta":{kalorieNa100g:264},"czosnek":{kalorieNa100g:149},"kefir naturalny":{kalorieNa100g:51},"maslanka naturalna":{kalorieNa100g:40},"truskawki":{kalorieNa100g:32},"pomarancza":{kalorieNa100g:47},"maslo orzechowe":{kalorieNa100g:588},"tunczyk w sosie wlasnym (odsaczony)":{kalorieNa100g:100},"salata lodowa":{kalorieNa100g:14},"ogorek zielony":{kalorieNa100g:15},"kukurydza konserwowa":{kalorieNa100g:86},"rzodkiewka":{kalorieNa100g:16},"oliwki zielone":{kalorieNa100g:145},"pieczarki":{kalorieNa100g:22}
+    };
+    let bazaSkladnikow = JSON.parse(JSON.stringify(poczatkowaBazaSkladnikow)); 
+    let listaSkladnikow = Object.keys(bazaSkladnikow).sort();
+    
+    const typyPosilkow = ['sniadanie', 'obiad', 'przekaska', 'kolacja'];
+    const themeCheckbox = document.getElementById('theme-checkbox');
+    const bodyElement = document.body;
+    const dziennyLimitKalorii = 1500;
+    const appHeaderElement = document.getElementById('app-header');
+
+    const saveButton = document.getElementById('save-button');
+    const loadFileInput = document.getElementById('load-file-input');
+    const datePickerModal = document.getElementById('date-picker-modal');
+    const saveDatePicker = document.getElementById('save-date-picker');
+    const confirmSaveDateButton = document.getElementById('confirm-save-date');
+    const cancelSaveDateButton = document.getElementById('cancel-save-date');
+    
+    const openCustomIngredientModalButton = document.getElementById('open-custom-ingredient-modal-button');
+    const customIngredientModal = document.getElementById('custom-ingredient-modal');
+    const closeCustomIngredientModalButton = document.getElementById('close-custom-ingredient-modal-button');
+    const addCustomIngredientConfirmButton = document.getElementById('add-custom-ingredient-confirm-button');
+    const customModalIngredientNameInput = document.getElementById('custom-modal-ingredient-name');
+    const customModalIngredientCaloriesInput = document.getElementById('custom-modal-ingredient-calories');
+    const sessionCustomIngredientsListUl = document.querySelector('#session-custom-ingredients-list ul');
+
+    const generateShoppingListButton = document.getElementById('generate-shopping-list-button');
+    const shoppingListContainer = document.getElementById('shopping-list-container');
+    const shoppingListDisplay = document.getElementById('shopping-list-display');
+    const saveShoppingListButton = document.getElementById('save-shopping-list-button');
+
+    function setAppHeader(text) { appHeaderElement.textContent = text; }
+    function getCurrentDateFormattedForInput() { return new Date().toISOString().split('T')[0]; }
+    function getCurrentDateFormattedForDisplay() {
+        const today = new Date();
+        return `${String(today.getDate()).padStart(2, '0')}.${String(today.getMonth() + 1).padStart(2, '0')}.${today.getFullYear()}`;
+    }
+    function formatDateForDisplay(dateStringYYYYMMDD) {
+        if (!dateStringYYYYMMDD) return getCurrentDateFormattedForDisplay();
+        const [year, month, day] = dateStringYYYYMMDD.split('-');
+        return `${day}.${month}.${year}`;
+    }
+
+    function applyTheme(theme) {
+        bodyElement.classList.toggle('dark-mode', theme === 'dark');
+        themeCheckbox.checked = (theme === 'dark');
+        aktualizujSumeDniaCala();
+    }
+    function initializeTheme() {
+        let currentTheme = localStorage.getItem('theme');
+        if (!currentTheme) {
+            currentTheme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        applyTheme(currentTheme);
+    }
+
+    themeCheckbox.addEventListener('change', () => {
+        const newTheme = themeCheckbox.checked ? 'dark' : 'light';
+        applyTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+    
+    function aktualizujWszystkieListyWyboruSkladnikow() {
+        document.querySelectorAll('.ingredients-container select').forEach(selectElement => {
+            const currentValue = selectElement.value;
+            selectElement.innerHTML = '<option value="">--Wybierz--</option>'; 
+            
+            const customIngredientsGroup = document.createElement('optgroup');
+            customIngredientsGroup.label = 'Własne Składniki';
+            let hasCustom = false;
+            const baseIngredientsGroup = document.createElement('optgroup');
+            baseIngredientsGroup.label = 'Składniki z Bazy';
+
+            listaSkladnikow.forEach(skladnik => { 
+                const option = document.createElement('option');
+                option.value = skladnik;
+                option.textContent = skladnik.charAt(0).toUpperCase() + skladnik.slice(1);
+                
+                if (bazaSkladnikow[skladnik] && (bazaSkladnikow[skladnik].wlasny === true || !poczatkowaBazaSkladnikow[skladnik])) {
+                    customIngredientsGroup.appendChild(option);
+                    hasCustom = true;
+                } else {
+                    baseIngredientsGroup.appendChild(option);
+                }
+            });
+            
+            if (hasCustom && customIngredientsGroup.children.length > 0) {
+                 selectElement.appendChild(customIngredientsGroup);
+            }
+            if (baseIngredientsGroup.children.length > 0) {
+                selectElement.appendChild(baseIngredientsGroup);
+            }
+            
+            if (listaSkladnikow.includes(currentValue)) {
+                 selectElement.value = currentValue;
+            } else {
+                selectElement.value = ""; 
+            }
+        });
+    }
+
+    openCustomIngredientModalButton.addEventListener('click', () => customIngredientModal.classList.add('visible'));
+    closeCustomIngredientModalButton.addEventListener('click', () => customIngredientModal.classList.remove('visible'));
+
+    addCustomIngredientConfirmButton.addEventListener('click', () => {
+        const name = customModalIngredientNameInput.value.trim().toLowerCase();
+        const calories = parseFloat(customModalIngredientCaloriesInput.value);
+
+        if (!name) { alert("Proszę podać nazwę własnego składnika."); customModalIngredientNameInput.focus(); return; }
+        if (isNaN(calories) || calories < 0) { alert("Proszę podać poprawną liczbę kalorii."); customModalIngredientCaloriesInput.focus(); return; }
+
+        let isNew = !bazaSkladnikow[name] || !bazaSkladnikow[name].wlasny; 
+        if (bazaSkladnikow[name] && !bazaSkladnikow[name].wlasny && !confirm(`Składnik "${name}" istnieje w bazie. Czy chcesz go nadpisać jako własny z nową kalorycznością?`)) return;
+        else if (bazaSkladnikow[name] && bazaSkladnikow[name].wlasny && bazaSkladnikow[name].kalorieNa100g !== calories && !confirm(`Własny składnik "${name}" już istnieje. Czy chcesz nadpisać jego kaloryczność?`)) return;
+
+        bazaSkladnikow[name] = { kalorieNa100g: calories, wlasny: true };
+        if (!listaSkladnikow.includes(name)) {
+            listaSkladnikow.push(name);
+            listaSkladnikow.sort();
+        }
+        
+        aktualizujWszystkieListyWyboruSkladnikow();
+        odswiezListeWlasnychSkladnikowWSesji();
+
+        alert(`Składnik "${name}" (${calories} kcal/100g) został ${isNew ? 'dodany jako własny' : 'zaktualizowany'}.`);
+        customModalIngredientNameInput.value = "";
+        customModalIngredientCaloriesInput.value = "";
+    });
+
+    function odswiezListeWlasnychSkladnikowWSesji() {
+        sessionCustomIngredientsListUl.innerHTML = "";
+        let hasCustom = false;
+        const wlasneSkladniki = listaSkladnikow.filter(nazwaSkladnika => 
+            bazaSkladnikow[nazwaSkladnika] && (bazaSkladnikow[nazwaSkladnika].wlasny || !poczatkowaBazaSkladnikow[nazwaSkladnika])
+        ).sort();
+
+        wlasneSkladniki.forEach(nazwaSkladnika => {
+            const li = document.createElement('li');
+            li.textContent = `${nazwaSkladnika.charAt(0).toUpperCase() + nazwaSkladnika.slice(1)} (${bazaSkladnikow[nazwaSkladnika].kalorieNa100g} kcal/100g)`;
+            sessionCustomIngredientsListUl.appendChild(li);
+            hasCustom = true;
+        });
+        if (!hasCustom) sessionCustomIngredientsListUl.innerHTML = "<li>Brak własnych składników.</li>";
+    }
+
+    function dodajSkladnik(typPosilku, skladnikData = null, kalkulujOdRazu = true) {
+        const container = document.getElementById(`${typPosilku}-skladniki`);
+        const ingredientRow = document.createElement('div');
+        ingredientRow.classList.add('ingredient-row');
+        const rowId = `${typPosilku}-skladnik-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+        
+        const selectId = `${rowId}-select`;
+        const selectElement = document.createElement('select');
+        selectElement.id = selectId;
+        
+        const defaultOption = document.createElement('option');
+        defaultOption.value = ""; defaultOption.textContent = "--Wybierz--";
+        selectElement.appendChild(defaultOption);
+
+        const customIngredientsGroup = document.createElement('optgroup');
+        customIngredientsGroup.label = 'Własne Składniki'; let hasCustomInDropdown = false;
+        const baseIngredientsGroup = document.createElement('optgroup');
+        baseIngredientsGroup.label = 'Składniki z Bazy';
+        
+        listaSkladnikow.forEach(skladnikIter => {
+            const option = document.createElement('option');
+            option.value = skladnikIter;
+            option.textContent = skladnikIter.charAt(0).toUpperCase() + skladnikIter.slice(1);
+            if (skladnikData && skladnikData.nazwa === skladnikIter) {
+                option.selected = true;
+            }
+            
+            if (bazaSkladnikow[skladnikIter] && (bazaSkladnikow[skladnikIter].wlasny === true || !poczatkowaBazaSkladnikow[skladnikIter])) {
+                customIngredientsGroup.appendChild(option); hasCustomInDropdown = true;
+            } else {
+                baseIngredientsGroup.appendChild(option);
+            }
+        });
+        if (hasCustomInDropdown && customIngredientsGroup.hasChildNodes()) selectElement.appendChild(customIngredientsGroup);
+        if (baseIngredientsGroup.hasChildNodes()) selectElement.appendChild(baseIngredientsGroup);
+
+        const iloscValue = (skladnikData && skladnikData.ilosc) ? skladnikData.ilosc : "";
+        
+        const group1 = document.createElement('div');
+        group1.classList.add('input-group');
+        const label1 = document.createElement('label');
+        label1.htmlFor = selectId; label1.textContent = "Składnik:";
+        group1.appendChild(label1); group1.appendChild(selectElement);
+
+        const group2 = document.createElement('div');
+        group2.classList.add('input-group');
+        const label2 = document.createElement('label');
+        label2.htmlFor = `${rowId}-gramatura`; label2.classList.add('gramatura-label'); label2.textContent = "Ilość (g):";
+        const inputGrams = document.createElement('input');
+        inputGrams.type = "number"; inputGrams.id = `${rowId}-gramatura`; inputGrams.classList.add('grams-input');
+        inputGrams.placeholder = "g"; inputGrams.value = iloscValue; inputGrams.min = "0";
+        group2.appendChild(label2); group2.appendChild(inputGrams);
+
+        const actionsDiv = document.createElement('div'); 
+        actionsDiv.classList.add('ingredient-actions');
+        const caloriesDisplay = document.createElement('span');
+        caloriesDisplay.classList.add('calories-display'); caloriesDisplay.id = `${rowId}-kalorie`; caloriesDisplay.textContent = "0 kcal";
+        const removeButton = document.createElement('button');
+        removeButton.type = "button"; removeButton.classList.add('remove-btn', 'action-button'); removeButton.textContent = "Usuń";
+        removeButton.onclick = () => usunSkladnik(ingredientRow, typPosilku);
+        actionsDiv.appendChild(caloriesDisplay); actionsDiv.appendChild(removeButton);
+
+        ingredientRow.appendChild(group1); ingredientRow.appendChild(group2); ingredientRow.appendChild(actionsDiv);
+        container.appendChild(ingredientRow);
+        
+        // Ustawienie wartości selecta po dodaniu do DOM, jeśli dane są ładowane
+        if (skladnikData && skladnikData.nazwa) {
+            selectElement.value = skladnikData.nazwa;
+        }
+        selectElement.onchange = () => przeliczKalorie(typPosilku);
+        inputGrams.oninput = () => przeliczKalorie(typPosilku);
+
+        if (kalkulujOdRazu) {
+            przeliczKalorie(typPosilku);
+        }
+    }
+
+    function usunSkladnik(rowElement, typPosilku) {
+        if (rowElement) { rowElement.remove(); przeliczKalorie(typPosilku); }
+    }
+
+    function przeliczKalorie(typPosilku) {
+        const container = document.getElementById(`${typPosilku}-skladniki`);
+        let sumaKaloriiPosilku = 0;
+        if (container) {
+            Array.from(container.children).forEach(row => {
+                const selectElement = row.querySelector('select');
+                const inputElement = row.querySelector('input[type="number"].grams-input');
+                const caloriesDisplayElement = row.querySelector('.calories-display');
+                if (selectElement && inputElement && caloriesDisplayElement) {
+                    const wybranySkladnik = selectElement.value;
+                    const gramatura = parseFloat(inputElement.value) || 0;
+                    let kalorieSkladnika = 0;
+                    if (wybranySkladnik && bazaSkladnikow[wybranySkladnik] && gramatura > 0) {
+                        kalorieSkladnika = (gramatura / 100) * bazaSkladnikow[wybranySkladnik].kalorieNa100g;
+                        sumaKaloriiPosilku += kalorieSkladnika;
+                    }
+                    caloriesDisplayElement.textContent = `${kalorieSkladnika.toFixed(0)} kcal`;
+                }
+            });
+        }
+        const sumaPosilkuElement = document.getElementById(`${typPosilku}-kalorie-suma`);
+        if (sumaPosilkuElement) sumaPosilkuElement.textContent = sumaKaloriiPosilku.toFixed(0);
+        aktualizujSumeDniaCala();
+    }
+
+    function aktualizujSumeDniaCala() {
+        let sumaCalkowita = 0;
+        typyPosilkow.forEach(typ => {
+            const el = document.getElementById(`${typ}-kalorie-suma`);
+            if (el) sumaCalkowita += parseFloat(el.textContent) || 0;
+        });
+        const aktualnaSumaEl = document.getElementById('dzienna-suma-aktualna');
+        if (aktualnaSumaEl) {
+            aktualnaSumaEl.textContent = sumaCalkowita.toFixed(0);
+            aktualnaSumaEl.classList.toggle('calories-exceeded', sumaCalkowita > dziennyLimitKalorii);
+        }
+    }
+
+    function zbierzDaneJadlospisu() {
+        const jadlospis = { data: "", posilki: {}, definicjeWlasnychSkladnikow: {} };
+        typyPosilkow.forEach(typ => {
+            jadlospis.posilki[typ] = [];
+            const container = document.getElementById(`${typ}-skladniki`);
+            if (container) {
+                Array.from(container.children).forEach(row => {
+                    const sel = row.querySelector('select');
+                    const inp = row.querySelector('input[type="number"].grams-input');
+                    if (sel && inp && sel.value && parseFloat(inp.value) > 0) {
+                        const nazwa = sel.value;
+                        const ilosc = parseFloat(inp.value);
+                        jadlospis.posilki[typ].push({ nazwa, ilosc });
+                        if (bazaSkladnikow[nazwa] && (bazaSkladnikow[nazwa].wlasny === true || !poczatkowaBazaSkladnikow[nazwa])) {
+                            jadlospis.definicjeWlasnychSkladnikow[nazwa] = bazaSkladnikow[nazwa].kalorieNa100g;
+                        }
+                    }
+                });
+            }
+        });
+        return jadlospis;
+    }
+
+    saveButton.addEventListener('click', () => {
+        saveDatePicker.value = getCurrentDateFormattedForInput();
+        datePickerModal.classList.add('visible');
+    });
+    cancelSaveDateButton.addEventListener('click', () => datePickerModal.classList.remove('visible'));
+
+    confirmSaveDateButton.addEventListener('click', () => {
+        const wybranaData = saveDatePicker.value;
+        if (!wybranaData) { alert("Proszę wybrać datę."); return; }
+        datePickerModal.classList.remove('visible');
+        const jadlospisDoZapisu = zbierzDaneJadlospisu();
+        jadlospisDoZapisu.data = wybranaData;
+        const jsonData = JSON.stringify(jadlospisDoZapisu, null, 2);
+        const blob = new Blob([jsonData], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = `jadlospis-${wybranaData}.json`;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        setAppHeader(`Jadłospis z Dnia: ${formatDateForDisplay(wybranaData)}`);
+    });
+
+    loadFileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const wczytanyJadlospis = JSON.parse(e.target.result);
+                    zastosujWczytanyJadlospis(wczytanyJadlospis); 
+                    setAppHeader(`Jadłospis z Dnia: ${formatDateForDisplay(wczytanyJadlospis.data)}`);
+                } catch (err) {
+                    alert("Błąd wczytywania pliku."); console.error(err);
+                    setAppHeader(`Nowy Dzień - ${getCurrentDateFormattedForDisplay()}`);
+                }
+            };
+            reader.readAsText(file);
+            loadFileInput.value = "";
+        }
+    });
+
+    function wyczyscAktualnyJadlospis() {
+        typyPosilkow.forEach(typ => {
+            const container = document.getElementById(`${typ}-skladniki`);
+            if (container) container.innerHTML = "";
+        });
+        bazaSkladnikow = JSON.parse(JSON.stringify(poczatkowaBazaSkladnikow)); 
+        listaSkladnikow = Object.keys(bazaSkladnikow).sort();
+        odswiezListeWlasnychSkladnikowWSesji(); 
+        aktualizujWszystkieListyWyboruSkladnikow(); 
+        typyPosilkow.forEach(typ => przeliczKalorie(typ)); 
+    }
+
+    function zastosujWczytanyJadlospis(jadlospis) {
+        wyczyscAktualnyJadlospis(); 
+        
+        if (jadlospis.definicjeWlasnychSkladnikow) {
+            for (const nazwaSkladnika in jadlospis.definicjeWlasnychSkladnikow) {
+                bazaSkladnikow[nazwaSkladnika] = { 
+                    kalorieNa100g: jadlospis.definicjeWlasnychSkladnikow[nazwaSkladnika],
+                    wlasny: true 
+                };
+                if (!listaSkladnikow.includes(nazwaSkladnika)) {
+                    listaSkladnikow.push(nazwaSkladnika);
+                }
+            }
+            listaSkladnikow.sort();
+        }
+        aktualizujWszystkieListyWyboruSkladnikow(); 
+        odswiezListeWlasnychSkladnikowWSesji();
+
+        if (jadlospis.posilki) {
+            typyPosilkow.forEach(typ => {
+                if (jadlospis.posilki[typ] && Array.isArray(jadlospis.posilki[typ])) {
+                    jadlospis.posilki[typ].forEach(skladnik => {
+                        if(bazaSkladnikow[skladnik.nazwa]){ 
+                            dodajSkladnik(typ, skladnik, false); 
+                        } else {
+                            console.warn(`Składnik "${skladnik.nazwa}" z wczytanego pliku nie ma definicji w bazie i nie został dodany.`);
+                        }
+                    });
+                }
+            });
+            typyPosilkow.forEach(typ => przeliczKalorie(typ));
+        }
+    }
+
+
+    generateShoppingListButton.addEventListener('click', () => {
+        const jadlospis = zbierzDaneJadlospisu();
+        const agregowaneSkladniki = {};
+        Object.values(jadlospis.posilki).forEach(posilek => {
+            posilek.forEach(skladnik => {
+                agregowaneSkladniki[skladnik.nazwa] = (agregowaneSkladniki[skladnik.nazwa] || 0) + skladnik.ilosc;
+            });
+        });
+        shoppingListDisplay.innerHTML = "";
+        if (Object.keys(agregowaneSkladniki).length > 0) {
+            Object.entries(agregowaneSkladniki).sort((a,b) => a[0].localeCompare(b[0])).forEach(([nazwa, ilosc]) => {
+                const li = document.createElement('li');
+                li.textContent = `${nazwa.charAt(0).toUpperCase() + nazwa.slice(1)}: ${ilosc.toFixed(0)} g`;
+                shoppingListDisplay.appendChild(li);
+            });
+            saveShoppingListButton.style.display = 'inline-block';
+        } else {
+            shoppingListDisplay.innerHTML = "<li>Brak składników w jadłospisie.</li>";
+            saveShoppingListButton.style.display = 'none';
+        }
+        shoppingListContainer.style.display = 'block';
+    });
+
+    saveShoppingListButton.addEventListener('click', () => {
+        let textContent = "Lista Zakupów:\n\n";
+        shoppingListDisplay.querySelectorAll('li').forEach(li => {
+            textContent += `- ${li.textContent}\n`;
+        });
+        const blob = new Blob([textContent], {type: 'text/plain;charset=utf-8'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `lista-zakupow-${getCurrentDateFormattedForInput()}.txt`;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
+    window.onload = function() {
+        initializeTheme();
+        setAppHeader(`Nowy Dzień - ${getCurrentDateFormattedForDisplay()}`);
+        const limitSumaEl = document.getElementById('dzienna-suma-limit');
+        if (limitSumaEl) limitSumaEl.textContent = dziennyLimitKalorii;
+        
+        aktualizujWszystkieListyWyboruSkladnikow();
+        typyPosilkow.forEach(typ => przeliczKalorie(typ)); 
+        odswiezListeWlasnychSkladnikowWSesji();
+    };
+</script>
+
+</body>
+</html>
