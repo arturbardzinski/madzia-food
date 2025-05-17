@@ -11,13 +11,13 @@
     --button-cancel-hover-bg-light: #545b62; --button-remove-bg-light: #dc3545;
     --button-remove-hover-bg-light: #c82333;
 
-    /* Kolory dla FAB i powiązanych akcji */
-    --button-shopping-actions-bg-light: #6f42c1; /* Fioletowy dla FAB listy zakupów */
+    /* Kolory dla FAB i powiązanych akcji - NIE UŻYWAMY do glassmorphism */
+    --button-shopping-actions-bg-light: #6f42c1;
     --button-shopping-actions-hover-bg-light: #5a2fa3;
-    --button-custom-add-bg-light: #ffc107; /* Żółty dla FAB dodawania własnego */
+    --button-custom-add-bg-light: #ffc107;
     --button-custom-add-hover-bg-light: #e0a800;
-    --fab-custom-add-icon-color-light: #212529; /* Ciemna ikona na żółtym */
-    --fab-shopping-list-icon-color-light: #ffffff; /* Biała ikona na fioletowym */
+    --fab-custom-add-icon-color-light: #212529;
+    --fab-shopping-list-icon-color-light: #ffffff;
 
     --daily-total-bg-light: #e6f7ff;
     --daily-total-border-light: #b3e0ff; --daily-total-text-light: #004c80;
@@ -31,6 +31,10 @@
     --button-border-radius: 20px;
     --greeting-name-color-light: var(--accent-color-light);
 
+    /* Glassmorphism dla FAB */
+    --fab-glass-bg-light: rgba(255, 255, 255, 0.30);
+    --fab-glass-border-light: rgba(200, 200, 255, 0.35);
+
     /* Ciemny motyw */
     --bg-color-dark: #121212; --container-bg-color-dark: #1e1e1e; --section-bg-color-dark: #2a2a2a;
     --text-color-dark: #e0e0e0; --header-text-color-dark: #ffffff; --accent-color-dark: #36a1ff;
@@ -43,13 +47,16 @@
     --button-cancel-hover-bg-dark: #616161; --button-remove-bg-dark: #f44336;
     --button-remove-hover-bg-dark: #d32f2f;
 
-    /* Kolory dla FAB i powiązanych akcji w trybie ciemnym */
+    /* FAB Glassmorphism Dark */
+    --fab-glass-bg-dark: rgba(40, 40, 60, 0.50);
+    --fab-glass-border-dark: rgba(60, 60, 80, 0.60);
+
     --button-shopping-actions-bg-dark: #9370db;
     --button-shopping-actions-hover-bg-dark: #825fbf;
     --button-custom-add-bg-dark: #ffca28;
     --button-custom-add-hover-bg-dark: #ffb300;
-    --fab-custom-add-icon-color-dark: #212529; /* Ciemna ikona na żółtym */
-    --fab-shopping-list-icon-color-dark: #ffffff; /* Biała ikona na fioletowym */
+    --fab-custom-add-icon-color-dark: #ffffff;
+    --fab-shopping-list-icon-color-dark: #ffffff;
 
     --daily-total-bg-dark: #212936;
     --daily-total-border-dark: #37474f; --daily-total-text-dark: #90cdf4;
@@ -77,6 +84,8 @@ body {
     --button-custom-add-bg: var(--button-custom-add-bg-light); --button-custom-add-hover-bg: var(--button-custom-add-hover-bg-light);
     --fab-custom-add-icon-color: var(--fab-custom-add-icon-color-light);
     --fab-shopping-list-icon-color: var(--fab-shopping-list-icon-color-light);
+    --fab-glass-bg: var(--fab-glass-bg-light);
+    --fab-glass-border: var(--fab-glass-border-light);
     --daily-total-bg: var(--daily-total-bg-light); --daily-total-border: var(--daily-total-border-light);
     --daily-total-text: var(--daily-total-text-light); --daily-total-span: var(--daily-total-span-light);
     --shadow-color: var(--shadow-color-light); --input-bg-color: var(--input-bg-color-light);
@@ -102,6 +111,8 @@ body.dark-mode {
     --button-custom-add-bg: var(--button-custom-add-bg-dark); --button-custom-add-hover-bg: var(--button-custom-add-hover-bg-dark);
     --fab-custom-add-icon-color: var(--fab-custom-add-icon-color-dark);
     --fab-shopping-list-icon-color: var(--fab-shopping-list-icon-color-dark);
+    --fab-glass-bg: var(--fab-glass-bg-dark);
+    --fab-glass-border: var(--fab-glass-border-dark);
     --daily-total-bg: var(--daily-total-bg-dark); --daily-total-border: var(--daily-total-border-dark);
     --daily-total-text: var(--daily-total-text-dark); --daily-total-span: var(--daily-total-span-dark);
     --shadow-color: var(--shadow-color-dark); --input-bg-color: var(--input-bg-color-dark);
@@ -276,7 +287,6 @@ h2 {
 
 .ingredient-row .input-group {
     display: flex; flex-direction: column;
-    flex: 1 1 180px;
     min-width: 130px;
     gap: 4px;
 }
@@ -286,7 +296,7 @@ h2 {
 }
 .ingredient-row select {
     appearance: none; -webkit-appearance: none; -moz-appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%232c3e50%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%232c3e50%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
     background-repeat: no-repeat;
     background-position: right 12px center;
     background-size: 10px 10px;
@@ -294,7 +304,7 @@ h2 {
     width: 100%;
 }
 body.dark-mode .ingredient-row select {
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23e0e0e0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23e0e0e0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
 }
 .ingredient-row select optgroup { font-weight: bold; font-style: italic; color: var(--optgroup-label-color); }
 .ingredient-row select option { background-color: var(--input-bg-color); color: var(--text-color); }
@@ -347,6 +357,47 @@ button.add-ingredient-btn {
     background-color: var(--button-shopping-actions-hover-bg); /* Użycie zmiennej dla spójności */
 }
 
+/* --- GLASSMORPHISM DLA FAB --- */
+.fab-container .action-button,
+#fab-open-custom-ingredient,
+#fab-generate-shopping-list {
+    background: var(--fab-glass-bg);
+    border: 1.5px solid var(--fab-glass-border);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
+    backdrop-filter: blur(9px) saturate(150%);
+    -webkit-backdrop-filter: blur(9px) saturate(150%);
+    color: var(--fab-shopping-list-icon-color);
+    transition: background 0.3s, border 0.3s, box-shadow 0.3s, color 0.3s;
+}
+#fab-open-custom-ingredient {
+    color: var(--fab-custom-add-icon-color);
+}
+#fab-generate-shopping-list {
+    color: var(--fab-shopping-list-icon-color);
+}
+body.dark-mode .fab-container .action-button,
+body.dark-mode #fab-open-custom-ingredient,
+body.dark-mode #fab-generate-shopping-list {
+    background: var(--fab-glass-bg);
+    border: 1.5px solid var(--fab-glass-border);
+    color: var(--fab-shopping-list-icon-color);
+}
+body.dark-mode #fab-open-custom-ingredient {
+    color: var(--fab-custom-add-icon-color);
+}
+body.dark-mode #fab-generate-shopping-list {
+    color: var(--fab-shopping-list-icon-color);
+}
+
+/* Spraw by SVG ikony były kolorowane przez color z rodzica */
+.fab-container .action-button svg,
+.fab-container .action-button svg path {
+    fill: currentColor !important;
+    color: inherit !important;
+    transition: fill 0.2s, color 0.2s;
+}
+/* --- END GLASSMORPHISM DLA FAB --- */
+
 /* Floating Action Buttons Container */
 .fab-container {
     position: fixed;
@@ -370,25 +421,17 @@ button.add-ingredient-btn {
     justify-content: center;
     align-items: center;
 }
-#fab-open-custom-ingredient {
-    background-color: var(--button-custom-add-bg);
-    color: var(--fab-custom-add-icon-color);
-}
-#fab-open-custom-ingredient:hover {
-    background-color: var(--button-custom-add-hover-bg);
-}
 
-#fab-generate-shopping-list {
-    background-color: var(--button-shopping-actions-bg);
-    color: var(--fab-shopping-list-icon-color);
-}
+#fab-open-custom-ingredient:hover,
 #fab-generate-shopping-list:hover {
-    background-color: var(--button-shopping-actions-hover-bg);
+    background: color-mix(in srgb, var(--fab-glass-bg) 85%, #fff 15%);
+    border-color: color-mix(in srgb, var(--fab-glass-border) 85%, #fff 15%);
+    box-shadow: 0 4px 20px 4px rgba(31, 38, 135, 0.16);
 }
 
 /* Modal dla listy zakupów (jeśli będzie potrzebny w przyszłości, style są gotowe) */
 #modal-shopping-list-display {
-    list-style-type: "\1F6D2\00a0 "; /* Użycie unicode dla ikony koszyka */
+    list-style-type: "\1F6D2\00a0 ";
     padding-left: 25px;
     margin-top: 15px;
     margin-bottom: 20px;
@@ -402,25 +445,23 @@ button.add-ingredient-btn {
     font-size: 1.05em;
     line-height: 1.6;
 }
-#modal-save-shopping-list-button { /* Przycisk zapisu w modalu */
+#modal-save-shopping-list-button {
     background-color: var(--button-shopping-actions-bg);
 }
 #modal-save-shopping-list-button:hover {
     background-color: var(--button-shopping-actions-hover-bg);
 }
-#close-shopping-list-modal-button { /* Przycisk zamknięcia modala */
+#close-shopping-list-modal-button {
     background-color: var(--button-cancel-bg);
 }
 #close-shopping-list-modal-button:hover {
     background-color: var(--button-cancel-hover-bg);
 }
 
-
 @media (max-width: 767px) {
     .top-bar {
         flex-direction: column; gap: 12px; padding: 10px; align-items: stretch;
     }
-    /* .app-header text-align: center; jest już globalnie zdefiniowane */
     .top-bar-controls {
         width: 100%; display: flex;
         flex-direction: column;
@@ -435,9 +476,7 @@ button.add-ingredient-btn {
         min-width: 120px;
         padding: 8px 10px;
     }
-    .theme-switch-wrapper { margin-left: 0; margin-top: 0; } /* Wyśrodkowanie przez rodzica */
-
-
+    .theme-switch-wrapper { margin-left: 0; margin-top: 0; }
     .ingredient-row {
         flex-direction: column;
         align-items: stretch;
@@ -449,7 +488,6 @@ button.add-ingredient-btn {
         flex-grow: 0;
         margin-bottom: 0;
     }
-
     .ingredient-row input[type="number"].grams-input {
         max-width: 100%;
     }
@@ -474,11 +512,9 @@ button.add-ingredient-btn {
         flex-grow: 0;
         flex-shrink: 0;
     }
-
     .modal-content { padding: 20px; }
     .modal-buttons { flex-direction: column; }
     .modal-buttons button { width:100%; max-width: none; }
-
     .fab-container {
         bottom: 15px;
         right: 15px;
