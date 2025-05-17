@@ -454,12 +454,19 @@ button.add-ingredient-btn {
 }
 #shopping-list-display { list-style-type: "\1F6D2\00a0 "; padding-left: 25px; } /* Użycie unicode dla ikony koszyka */
 #shopping-list-display li { margin-bottom: 10px; font-size: 1.05em; line-height: 1.6; }
-#save-shopping-list-button {
-    margin-top: 20px;
-    background-color: var(--button-shopping-actions-bg); /* Użycie zmiennej dla spójności */
+#fetch-calories-btn {
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    border-radius: var(--button-border-radius);
+    padding: 7px 18px;
+    font-size: 0.98em;
+    margin-top: 4px;
+    cursor: pointer;
+    transition: background 0.15s;
 }
-#save-shopping-list-button:hover {
-    background-color: var(--button-shopping-actions-hover-bg); /* Użycie zmiennej dla spójności */
+#fetch-calories-btn:hover {
+    background: var(--accent-hover-color);
 }
 
 /* Modal dla listy zakupów */

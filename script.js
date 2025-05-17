@@ -24,6 +24,8 @@ const addCustomIngredientConfirmButton = document.getElementById('add-custom-ing
 const customModalIngredientNameInput = document.getElementById('custom-modal-ingredient-name');
 const customModalIngredientCaloriesInput = document.getElementById('custom-modal-ingredient-calories');
 const sessionCustomIngredientsListUl = document.querySelector('#session-custom-ingredients-list ul');
+const ingredientAutocomplete = document.getElementById('ingredient-autocomplete'); // <datalist>
+const fetchCaloriesBtn = document.getElementById('fetch-calories-btn'); // <button>
 
 const fabGenerateShoppingListButton = document.getElementById('fab-generate-shopping-list');
 const shoppingListModal = document.getElementById('shopping-list-modal');
@@ -50,7 +52,7 @@ cancelClearLocalStorageBtn.addEventListener('click', () => {
 confirmClearLocalStorageBtn.addEventListener('click', () => {
     clearLocalStorageModal.classList.remove('visible');
     localStorage.clear();
-    showToast("Wyczyszczono localStorage!", "success");
+    showToast("Wyczyszczono dane lokalne!", "success");
     initializeTheme();
     wyczyscAktualnyJadlospis();
     setAppHeader(`Nowy Dzień - ${getCurrentDateFormattedForDisplay()}`);
@@ -584,6 +586,81 @@ function zbierzDanie(typPosilku) {
         });
     }
 });
+
+/* --- AUTOUZUPEŁNIANIE NAZWY SKŁADNIKA + POBIERANIE KALORII Z OPEN FOOD FACTS --- */
+let autocompleteTimeout = null;
+customModalIngredientNameInput.addEventListener('input', function() {
+    const query = this.value.trim();
+    if (autocompleteTimeout) clearTimeout(autocompleteTimeout);
+    if (!query) {
+        ingredientAutocomplete.innerHTML = '';
+        return;
+    }
+    autocompleteTimeout = setTimeout(async () => {
+        const url = `https://pl.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=7&lc=pl&country=poland`;
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            if (data.products) {
+                ingredientAutocomplete.innerHTML = '';
+                data.products.forEach(prod => {
+                    if (prod.product_name) {
+                        const opt = document.createElement('option');
+                        opt.value = prod.product_name;
+                        ingredientAutocomplete.appendChild(opt);
+                    }
+                });
+            }
+        } catch (e) {
+            ingredientAutocomplete.innerHTML = '';
+        }
+    }, 250);
+});
+
+fetchCaloriesBtn.addEventListener('click', async () => {
+    const name = customModalIngredientNameInput.value.trim();
+    if (!name) {
+        showToast("Najpierw wpisz nazwę składnika!", "error");
+        customModalIngredientNameInput.focus();
+        return;
+    }
+    fetchCaloriesBtn.textContent = "Szukanie...";
+    fetchCaloriesBtn.disabled = true;
+    const result = await getCaloriesFromOpenFoodFacts(name);
+    fetchCaloriesBtn.textContent = "Wyszukaj w bazie Open Food Facts";
+    fetchCaloriesBtn.disabled = false;
+    if (result) {
+        customModalIngredientCaloriesInput.value = result.caloriesPer100g;
+        showToast(`Znaleziono: ${result.name} (${result.caloriesPer100g} kcal/100g)`, "success");
+    } else {
+        showToast("Nie znaleziono kaloryczności w bazie.", "error");
+    }
+});
+
+async function getCaloriesFromOpenFoodFacts(productName) {
+    if (!productName) return null;
+    const url = `https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(productName)}&search_simple=1&action=process&json=1`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (data.products && data.products.length > 0) {
+            // Szukamy produktu z kaloriami
+            const firstWithCalories = data.products.find(
+                p => p.nutriments && p.nutriments['energy-kcal_100g']
+            );
+            if (firstWithCalories) {
+                return {
+                    name: firstWithCalories.product_name || productName,
+                    caloriesPer100g: firstWithCalories.nutriments['energy-kcal_100g']
+                };
+            }
+        }
+    } catch (err) {
+        return null;
+    }
+    return null;
+}
+
 window.onload = function() {
     initializeTheme();
     setAppHeader(`Nowy Dzień - ${getCurrentDateFormattedForDisplay()}`);
