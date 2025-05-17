@@ -527,4 +527,47 @@ body.dark-mode #fab-generate-shopping-list {
         line-height: 50px;
     }
 }
+/* Zmiany dla szerokich ekranów */
+@media (min-width: 768px) {
+    .top-bar {
+        flex-direction: row;
+        align-items: center;
+        gap: 24px;
+    }
+
+    .app-header {
+        flex-basis: auto;
+        margin-bottom: 0;
+        text-align: left; /* Jeśli chcesz na środku zostaw center */
+        min-width: 230px;
+        font-size: 1.18em;
+    }
+
+    .top-bar-controls {
+        flex-direction: row;
+        align-items: center;
+        width: auto;
+        gap: 18px;
+        flex-shrink: 0;
+    }
+    .top-bar-actions-group {
+        flex-direction: row;
+        gap: 12px;
+        flex-grow: 0;
+    }
+    /* Szerokość przycisków "Zapisz Dzień" i "Wczytaj Dzień" */
+    #save-button,
+    #load-button-label {
+        min-width: 140px;
+        max-width: 140px;
+        width: 140px;
+        text-align: center;
+        flex-grow: 0;
+        flex-shrink: 0;
+        white-space: nowrap;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
 input[type="file"]#load-file-input { display: none; }
