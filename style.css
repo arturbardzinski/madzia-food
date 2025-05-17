@@ -279,6 +279,12 @@ body.dark-mode .icon-action-btn:hover, body.dark-mode .icon-action-btn:focus {
 #add-custom-ingredient-confirm-button:hover { background-color: var(--button-save-hover-bg); }
 #close-custom-ingredient-modal-button { background-color: var(--button-cancel-bg); }
 #close-custom-ingredient-modal-button:hover { background-color: var(--button-cancel-hover-bg); }
+#cancel-clear-localstorage-btn {
+    background-color: var(--button-cancel-bg);
+}
+#cancel-clear-localstorage-btn:hover {
+    background-color: var(--button-cancel-hover-bg);
+}
 
 #session-custom-ingredients-list {
     margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border-color);

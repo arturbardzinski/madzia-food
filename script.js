@@ -35,9 +35,61 @@ const shoppingListContainer = document.getElementById('shopping-list-container')
 const shoppingListDisplay = document.getElementById('shopping-list-display');
 const saveShoppingListButton = document.getElementById('save-shopping-list-button');
 
+// --- MODAL CZYSZCZENIA LOCALSTORAGE ---
 const fabClearLocalStorageBtn = document.getElementById('fab-clear-localstorage');
-const toastElement = document.getElementById('toast');
+const clearLocalStorageModal = document.getElementById('clear-localstorage-modal');
+const confirmClearLocalStorageBtn = document.getElementById('confirm-clear-localstorage-btn');
+const cancelClearLocalStorageBtn = document.getElementById('cancel-clear-localstorage-btn');
 
+fabClearLocalStorageBtn.addEventListener('click', () => {
+    clearLocalStorageModal.classList.add('visible');
+});
+cancelClearLocalStorageBtn.addEventListener('click', () => {
+    clearLocalStorageModal.classList.remove('visible');
+});
+confirmClearLocalStorageBtn.addEventListener('click', () => {
+    clearLocalStorageModal.classList.remove('visible');
+    localStorage.clear();
+    showToast("Wyczyszczono localStorage!", "success");
+    initializeTheme();
+    wyczyscAktualnyJadlospis();
+    setAppHeader(`Nowy Dzień - ${getCurrentDateFormattedForDisplay()}`);
+});
+
+// --- TOASTY ---
+function showToast(msg, type = "success") {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.className = "toast toast-" + type + " show";
+    setTimeout(() => {
+        toast.className = toast.className.replace("show", "");
+    }, 2200);
+}
+
+// --- FUNKCJE DODATKOWE DO ZAPISU/ODCZYTU STANU ---
+function zapiszStanDoLocalStorage() {
+    const jadlospis = zbierzDaneJadlospisu();
+    localStorage.setItem('jadlospis', JSON.stringify(jadlospis));
+}
+
+function przywrocStanZLocalStorage() {
+    const zapisanyJadlospis = localStorage.getItem('jadlospis');
+    if (zapisanyJadlospis) {
+        try {
+            const obj = JSON.parse(zapisanyJadlospis);
+            zastosujWczytanyJadlospis(obj);
+            setAppHeader(`Przywrócono jadłospis z pamięci`);
+        } catch (e) {
+            localStorage.removeItem('jadlospis');
+        }
+    } else {
+        aktualizujWszystkieListyWyboruSkladnikow();
+        typyPosilkow.forEach(typ => przeliczKalorie(typ));
+        odswiezListeWlasnychSkladnikowWSesji();
+    }
+}
+
+// --- RESZTA LOGIKI ---
 function setAppHeader(text) { appHeaderElement.textContent = text; }
 function getCurrentDateFormattedForInput() { return new Date().toISOString().split('T')[0]; }
 function getCurrentDateFormattedForDisplay() {
@@ -48,16 +100,6 @@ function formatDateForDisplay(dateStringYYYYMMDD) {
     if (!dateStringYYYYMMDD) return getCurrentDateFormattedForDisplay();
     const [year, month, day] = dateStringYYYYMMDD.split('-');
     return `${day}.${month}.${year}`;
-}
-
-function showToast(msg, type = 'success') {
-    if (!toastElement) return;
-    toastElement.textContent = msg;
-    toastElement.className = 'toast toast-' + type + ' show';
-    setTimeout(() => {
-        toastElement.className = 'toast toast-' + type;
-        toastElement.textContent = '';
-    }, 2600);
 }
 
 function applyTheme(theme) {
@@ -72,6 +114,7 @@ function initializeTheme() {
     }
     applyTheme(currentTheme);
 }
+
 themeCheckbox.addEventListener('change', () => {
     const newTheme = themeCheckbox.checked ? 'dark' : 'light';
     applyTheme(newTheme);
@@ -82,15 +125,18 @@ function aktualizujWszystkieListyWyboruSkladnikow() {
     document.querySelectorAll('.ingredients-container select').forEach(selectElement => {
         const currentValue = selectElement.value;
         selectElement.innerHTML = '<option value="">--Wybierz--</option>';
+
         const customIngredientsGroup = document.createElement('optgroup');
         customIngredientsGroup.label = 'Własne Składniki';
         let hasCustom = false;
         const baseIngredientsGroup = document.createElement('optgroup');
         baseIngredientsGroup.label = 'Składniki z Bazy';
+
         listaSkladnikow.forEach(skladnik => {
             const option = document.createElement('option');
             option.value = skladnik;
             option.textContent = skladnik.charAt(0).toUpperCase() + skladnik.slice(1);
+
             if (bazaSkladnikow[skladnik] && (bazaSkladnikow[skladnik].wlasny === true || !poczatkowaBazaSkladnikow[skladnik])) {
                 customIngredientsGroup.appendChild(option);
                 hasCustom = true;
@@ -98,12 +144,14 @@ function aktualizujWszystkieListyWyboruSkladnikow() {
                 baseIngredientsGroup.appendChild(option);
             }
         });
+
         if (hasCustom && customIngredientsGroup.children.length > 0) {
             selectElement.appendChild(customIngredientsGroup);
         }
         if (baseIngredientsGroup.children.length > 0) {
             selectElement.appendChild(baseIngredientsGroup);
         }
+
         if (listaSkladnikow.includes(currentValue)) {
             selectElement.value = currentValue;
         } else {
@@ -118,21 +166,26 @@ closeCustomIngredientModalButton.addEventListener('click', () => customIngredien
 addCustomIngredientConfirmButton.addEventListener('click', () => {
     const name = customModalIngredientNameInput.value.trim().toLowerCase();
     const calories = parseFloat(customModalIngredientCaloriesInput.value);
+
     if (!name) { showToast("Proszę podać nazwę własnego składnika.", "error"); customModalIngredientNameInput.focus(); return; }
     if (isNaN(calories) || calories < 0) { showToast("Proszę podać poprawną liczbę kalorii.", "error"); customModalIngredientCaloriesInput.focus(); return; }
+
     let isNew = !bazaSkladnikow[name] || !bazaSkladnikow[name].wlasny;
     if (bazaSkladnikow[name] && !bazaSkladnikow[name].wlasny && !confirm(`Składnik "${name}" istnieje w bazie. Czy chcesz go nadpisać jako własny z nową kalorycznością?`)) return;
     else if (bazaSkladnikow[name] && bazaSkladnikow[name].wlasny && bazaSkladnikow[name].kalorieNa100g !== calories && !confirm(`Własny składnik "${name}" już istnieje. Czy chcesz nadpisać jego kaloryczność?`)) return;
+
     bazaSkladnikow[name] = { kalorieNa100g: calories, wlasny: true };
     if (!listaSkladnikow.includes(name)) {
         listaSkladnikow.push(name);
         listaSkladnikow.sort();
     }
+
     aktualizujWszystkieListyWyboruSkladnikow();
     odswiezListeWlasnychSkladnikowWSesji();
     showToast(`Składnik "${name}" (${calories} kcal/100g) został ${isNew ? 'dodany jako własny' : 'zaktualizowany'}.`, "success");
     customModalIngredientNameInput.value = "";
     customModalIngredientCaloriesInput.value = "";
+    zapiszStanDoLocalStorage();
 });
 
 function odswiezListeWlasnychSkladnikowWSesji() {
@@ -141,6 +194,7 @@ function odswiezListeWlasnychSkladnikowWSesji() {
     const wlasneSkladniki = listaSkladnikow.filter(nazwaSkladnika =>
         bazaSkladnikow[nazwaSkladnika] && (bazaSkladnikow[nazwaSkladnika].wlasny || !poczatkowaBazaSkladnikow[nazwaSkladnika])
     ).sort();
+
     wlasneSkladniki.forEach(nazwaSkladnika => {
         const li = document.createElement('li');
         li.textContent = `${nazwaSkladnika.charAt(0).toUpperCase() + nazwaSkladnika.slice(1)} (${bazaSkladnikow[nazwaSkladnika].kalorieNa100g} kcal/100g)`;
@@ -155,16 +209,20 @@ function dodajSkladnik(typPosilku, skladnikData = null, kalkulujOdRazu = true) {
     const ingredientRow = document.createElement('div');
     ingredientRow.classList.add('ingredient-row');
     const rowId = `${typPosilku}-skladnik-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
+
     const selectId = `${rowId}-select`;
     const selectElement = document.createElement('select');
     selectElement.id = selectId;
+
     const defaultOption = document.createElement('option');
     defaultOption.value = ""; defaultOption.textContent = "--Wybierz--";
     selectElement.appendChild(defaultOption);
+
     const customIngredientsGroup = document.createElement('optgroup');
     customIngredientsGroup.label = 'Własne Składniki'; let hasCustomInDropdown = false;
     const baseIngredientsGroup = document.createElement('optgroup');
     baseIngredientsGroup.label = 'Składniki z Bazy';
+
     listaSkladnikow.forEach(skladnikIter => {
         const option = document.createElement('option');
         option.value = skladnikIter;
@@ -172,6 +230,7 @@ function dodajSkladnik(typPosilku, skladnikData = null, kalkulujOdRazu = true) {
         if (skladnikData && skladnikData.nazwa === skladnikIter) {
             option.selected = true;
         }
+
         if (bazaSkladnikow[skladnikIter] && (bazaSkladnikow[skladnikIter].wlasny === true || !poczatkowaBazaSkladnikow[skladnikIter])) {
             customIngredientsGroup.appendChild(option); hasCustomInDropdown = true;
         } else {
@@ -180,12 +239,15 @@ function dodajSkladnik(typPosilku, skladnikData = null, kalkulujOdRazu = true) {
     });
     if (hasCustomInDropdown && customIngredientsGroup.hasChildNodes()) selectElement.appendChild(customIngredientsGroup);
     if (baseIngredientsGroup.hasChildNodes()) selectElement.appendChild(baseIngredientsGroup);
+
     const iloscValue = (skladnikData && skladnikData.ilosc) ? skladnikData.ilosc : "";
+
     const group1 = document.createElement('div');
     group1.classList.add('input-group');
     const label1 = document.createElement('label');
     label1.htmlFor = selectId; label1.textContent = "Składnik:";
     group1.appendChild(label1); group1.appendChild(selectElement);
+
     const group2 = document.createElement('div');
     group2.classList.add('input-group');
     const label2 = document.createElement('label');
@@ -194,6 +256,7 @@ function dodajSkladnik(typPosilku, skladnikData = null, kalkulujOdRazu = true) {
     inputGrams.type = "number"; inputGrams.id = `${rowId}-gramatura`; inputGrams.classList.add('grams-input');
     inputGrams.placeholder = "g"; inputGrams.value = iloscValue; inputGrams.min = "0";
     group2.appendChild(label2); group2.appendChild(inputGrams);
+
     const actionsDiv = document.createElement('div');
     actionsDiv.classList.add('ingredient-actions');
     const caloriesDisplay = document.createElement('span');
@@ -202,20 +265,25 @@ function dodajSkladnik(typPosilku, skladnikData = null, kalkulujOdRazu = true) {
     removeButton.type = "button"; removeButton.classList.add('remove-btn', 'action-button'); removeButton.textContent = "Usuń";
     removeButton.onclick = () => usunSkladnik(ingredientRow, typPosilku);
     actionsDiv.appendChild(caloriesDisplay); actionsDiv.appendChild(removeButton);
+
     ingredientRow.appendChild(group1); ingredientRow.appendChild(group2); ingredientRow.appendChild(actionsDiv);
     container.appendChild(ingredientRow);
+
     if (skladnikData && skladnikData.nazwa) {
         selectElement.value = skladnikData.nazwa;
     }
     selectElement.onchange = () => przeliczKalorie(typPosilku);
     inputGrams.oninput = () => przeliczKalorie(typPosilku);
+
     if (kalkulujOdRazu) {
         przeliczKalorie(typPosilku);
     }
+    zapiszStanDoLocalStorage();
 }
 
 function usunSkladnik(rowElement, typPosilku) {
     if (rowElement) { rowElement.remove(); przeliczKalorie(typPosilku); }
+    zapiszStanDoLocalStorage();
 }
 
 function przeliczKalorie(typPosilku) {
@@ -241,6 +309,7 @@ function przeliczKalorie(typPosilku) {
     const sumaPosilkuElement = document.getElementById(`${typPosilku}-kalorie-suma`);
     if (sumaPosilkuElement) sumaPosilkuElement.textContent = sumaKaloriiPosilku.toFixed(0);
     aktualizujSumeDniaCala();
+    zapiszStanDoLocalStorage();
 }
 
 function aktualizujSumeDniaCala() {
@@ -253,6 +322,13 @@ function aktualizujSumeDniaCala() {
     if (aktualnaSumaEl) {
         aktualnaSumaEl.textContent = sumaCalkowita.toFixed(0);
         aktualnaSumaEl.classList.toggle('calories-exceeded', sumaCalkowita > dziennyLimitKalorii);
+    }
+    // Progress bar:
+    const progressBar = document.getElementById('progress-bar');
+    if (progressBar) {
+        let procent = Math.min((sumaCalkowita / dziennyLimitKalorii) * 100, 100);
+        progressBar.style.width = `${procent}%`;
+        progressBar.classList.toggle('exceeded', sumaCalkowita > dziennyLimitKalorii);
     }
 }
 
@@ -310,6 +386,7 @@ loadFileInput.addEventListener('change', (event) => {
                 const wczytanyJadlospis = JSON.parse(e.target.result);
                 zastosujWczytanyJadlospis(wczytanyJadlospis);
                 setAppHeader(`Jadłospis z Dnia: ${formatDateForDisplay(wczytanyJadlospis.data)}`);
+                zapiszStanDoLocalStorage();
             } catch (err) {
                 showToast("Błąd wczytywania pliku.", "error");
                 setAppHeader(`Nowy Dzień - ${getCurrentDateFormattedForDisplay()}`);
@@ -330,10 +407,12 @@ function wyczyscAktualnyJadlospis() {
     odswiezListeWlasnychSkladnikowWSesji();
     aktualizujWszystkieListyWyboruSkladnikow();
     typyPosilkow.forEach(typ => przeliczKalorie(typ));
+    localStorage.removeItem('jadlospis');
 }
 
 function zastosujWczytanyJadlospis(jadlospis) {
     wyczyscAktualnyJadlospis();
+
     if (jadlospis.definicjeWlasnychSkladnikow) {
         for (const nazwaSkladnika in jadlospis.definicjeWlasnychSkladnikow) {
             bazaSkladnikow[nazwaSkladnika] = {
@@ -348,6 +427,7 @@ function zastosujWczytanyJadlospis(jadlospis) {
     }
     aktualizujWszystkieListyWyboruSkladnikow();
     odswiezListeWlasnychSkladnikowWSesji();
+
     if (jadlospis.posilki) {
         typyPosilkow.forEach(typ => {
             if (jadlospis.posilki[typ] && Array.isArray(jadlospis.posilki[typ])) {
@@ -362,6 +442,7 @@ function zastosujWczytanyJadlospis(jadlospis) {
         });
         typyPosilkow.forEach(typ => przeliczKalorie(typ));
     }
+    zapiszStanDoLocalStorage();
 }
 
 fabGenerateShoppingListButton.addEventListener('click', () => {
@@ -372,6 +453,7 @@ fabGenerateShoppingListButton.addEventListener('click', () => {
             agregowaneSkladniki[skladnik.nazwa] = (agregowaneSkladniki[skladnik.nazwa] || 0) + skladnik.ilosc;
         });
     });
+
     modalShoppingListDisplay.innerHTML = "";
     if (Object.keys(agregowaneSkladniki).length > 0) {
         Object.entries(agregowaneSkladniki).sort((a,b) => a[0].localeCompare(b[0])).forEach(([nazwa, ilosc]) => {
@@ -405,24 +487,10 @@ modalSaveShoppingListButton.addEventListener('click', () => {
     URL.revokeObjectURL(url);
 });
 
-// FAB: Obsługa czyszczenia localStorage
-fabClearLocalStorageBtn.addEventListener('click', () => {
-    if (confirm('Czy na pewno chcesz wyczyścić wszystkie dane lokalne? To usunie szablony, ostatni motyw, ostatni zapis i ustawienia!')) {
-        localStorage.clear();
-        showToast("Wyczyszczono localStorage!", "success");
-        // reset motywu i wszystkiego co trzymane w localStorage
-        initializeTheme();
-        wyczyscAktualnyJadlospis();
-        setAppHeader(`Nowy Dzień - ${getCurrentDateFormattedForDisplay()}`);
-    }
-});
-
 window.onload = function() {
     initializeTheme();
     setAppHeader(`Nowy Dzień - ${getCurrentDateFormattedForDisplay()}`);
     const limitSumaEl = document.getElementById('dzienna-suma-limit');
     if (limitSumaEl) limitSumaEl.textContent = dziennyLimitKalorii;
-    aktualizujWszystkieListyWyboruSkladnikow();
-    typyPosilkow.forEach(typ => przeliczKalorie(typ));
-    odswiezListeWlasnychSkladnikowWSesji();
+    przywrocStanZLocalStorage();
 };

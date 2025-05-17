@@ -47,7 +47,6 @@
         </div>
     </div>
 
-    <!-- MODAL: Dodawanie własnego składnika -->
     <div id="custom-ingredient-modal" class="modal">
         <div class="modal-content">
             <h3>Dodaj Własny Składnik</h3>
@@ -72,7 +71,6 @@
         </div>
     </div>
 
-    <!-- MODAL: Wybór daty -->
     <div id="date-picker-modal" class="modal">
         <div class="modal-content">
             <h3>Wybierz datę dla jadłospisu:</h3>
@@ -84,7 +82,6 @@
         </div>
     </div>
 
-    <!-- MODAL: Lista zakupów -->
     <div id="shopping-list-modal" class="modal">
         <div class="modal-content">
             <h3>Lista Zakupów</h3>
@@ -96,18 +93,18 @@
         </div>
     </div>
 
-    <!-- MODAL: Szablony jadłospisów -->
-    <div id="templates-modal" class="modal">
+    <!-- MODAL - Potwierdzenie czyszczenia localStorage -->
+    <div id="clear-localstorage-modal" class="modal">
         <div class="modal-content">
-            <h3>Szablony Jadłospisu</h3>
-            <div id="templates-list"></div>
+            <h3>Czy na pewno chcesz wyczyścić wszystkie dane lokalne?</h3>
+            <p style="margin-bottom: 16px;">To usunie szablony, motyw, wszystkie własne składniki i ustawienia!</p>
             <div class="modal-buttons">
-                <button type="button" id="close-templates-modal-button" class="action-button">Zamknij</button>
+                <button type="button" id="confirm-clear-localstorage-btn" class="action-button" style="background-color: #dc3545;">Usuń</button>
+                <button type="button" id="cancel-clear-localstorage-btn" class="action-button">Anuluj</button>
             </div>
         </div>
     </div>
 
-    <!-- Sekcje posiłków -->
     <div class="meal-section" id="sniadanie-sekcja">
         <h2>Śniadanie</h2>
         <div class="ingredients-container" id="sniadanie-skladniki"></div>
@@ -115,6 +112,7 @@
         <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('sniadanie')">Dodaj Składnik</button>
         <p class="total-calories">Suma śniadania: <span id="sniadanie-kalorie-suma">0</span> kcal</p>
     </div>
+
     <div class="meal-section" id="obiad-sekcja">
         <h2>Obiad</h2>
         <div class="ingredients-container" id="obiad-skladniki"></div>
@@ -122,6 +120,7 @@
         <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('obiad')">Dodaj Składnik</button>
         <p class="total-calories">Suma obiadu: <span id="obiad-kalorie-suma">0</span> kcal</p>
     </div>
+
     <div class="meal-section" id="przekaska-sekcja">
         <h2>Przekąska</h2>
         <div class="ingredients-container" id="przekaska-skladniki"></div>
@@ -129,6 +128,7 @@
         <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('przekaska')">Dodaj Składnik</button>
         <p class="total-calories">Suma przekąski: <span id="przekaska-kalorie-suma">0</span> kcal</p>
     </div>
+
     <div class="meal-section" id="kolacja-sekcja">
         <h2>Kolacja</h2>
         <div class="ingredients-container" id="kolacja-skladniki"></div>
@@ -137,19 +137,6 @@
         <p class="total-calories">Suma kolacji: <span id="kolacja-kalorie-suma">0</span> kcal</p>
     </div>
 
-    <!-- Szablony - sekcja przycisków -->
-    <div style="text-align:right; margin-bottom:30px;">
-        <button type="button" id="save-template-btn" class="icon-action-btn" title="Zapisz jako szablon">
-            <!-- Ikona dyskietki/floppy SVG -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-8H6V5h7v6z"/></svg>
-        </button>
-        <button type="button" id="load-template-btn" class="icon-action-btn" title="Wczytaj z szablonu">
-            <!-- Ikona folderu SVG -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 4H2v16h20V6h-8l-2-2zM2 20V4c0-1.1.9-2 2-2h6l2 2h8c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2z"/></svg>
-        </button>
-    </div>
-
-    <!-- Sekcja listy zakupów -->
     <div id="shopping-list-section">
         <div id="shopping-list-container" style="display: none;">
             <h3>Lista Zakupów:</h3>
@@ -158,6 +145,7 @@
             <button type="button" id="save-shopping-list-button" class="action-button" style="display: none;">Zapisz Listę Zakupów</button>
         </div>
     </div>
+
 </div>
 
 <!-- Floating Action Buttons (FAB) -->
