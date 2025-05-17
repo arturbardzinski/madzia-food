@@ -66,6 +66,15 @@ function showToast(msg, type = "success") {
     }, 2200);
 }
 
+// --- Funkcja: Pusty stan posiłku ---
+function sprawdzPustyStanPosilku(typPosilku) {
+    const container = document.getElementById(`${typPosilku}-skladniki`);
+    const emptyDiv = document.getElementById(`empty-${typPosilku}`);
+    if (emptyDiv) {
+        emptyDiv.style.display = (container && container.children.length === 0) ? "block" : "none";
+    }
+}
+
 // --- FUNKCJE DODATKOWE DO ZAPISU/ODCZYTU STANU ---
 function zapiszStanDoLocalStorage() {
     const jadlospis = zbierzDaneJadlospisu();
@@ -84,7 +93,10 @@ function przywrocStanZLocalStorage() {
         }
     } else {
         aktualizujWszystkieListyWyboruSkladnikow();
-        typyPosilkow.forEach(typ => przeliczKalorie(typ));
+        typyPosilkow.forEach(typ => {
+            przeliczKalorie(typ);
+            sprawdzPustyStanPosilku(typ); // <-- sprawdzamy pusty stan na starcie
+        });
         odswiezListeWlasnychSkladnikowWSesji();
     }
 }
@@ -205,6 +217,10 @@ function odswiezListeWlasnychSkladnikowWSesji() {
 }
 
 function dodajSkladnik(typPosilku, skladnikData = null, kalkulujOdRazu = true) {
+    // Ukryj komunikat pustego stanu przy dodawaniu
+    const emptyDiv = document.getElementById(`empty-${typPosilku}`);
+    if (emptyDiv) emptyDiv.style.display = "none";
+
     const container = document.getElementById(`${typPosilku}-skladniki`);
     const ingredientRow = document.createElement('div');
     ingredientRow.classList.add('ingredient-row');
@@ -282,7 +298,11 @@ function dodajSkladnik(typPosilku, skladnikData = null, kalkulujOdRazu = true) {
 }
 
 function usunSkladnik(rowElement, typPosilku) {
-    if (rowElement) { rowElement.remove(); przeliczKalorie(typPosilku); }
+    if (rowElement) {
+        rowElement.remove();
+        przeliczKalorie(typPosilku);
+        sprawdzPustyStanPosilku(typPosilku); // <-- pokazuj komunikat jeśli już pusty
+    }
     zapiszStanDoLocalStorage();
 }
 
@@ -401,6 +421,7 @@ function wyczyscAktualnyJadlospis() {
     typyPosilkow.forEach(typ => {
         const container = document.getElementById(`${typ}-skladniki`);
         if (container) container.innerHTML = "";
+        sprawdzPustyStanPosilku(typ); // <-- sprawdzamy pusty stan po czyszczeniu
     });
     bazaSkladnikow = JSON.parse(JSON.stringify(poczatkowaBazaSkladnikow));
     listaSkladnikow = Object.keys(bazaSkladnikow).sort();
@@ -486,11 +507,88 @@ modalSaveShoppingListButton.addEventListener('click', () => {
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     URL.revokeObjectURL(url);
 });
+// Pobiera składniki dla danego posiłku
+function zbierzDanie(typPosilku) {
+    const result = [];
+    const container = document.getElementById(`${typPosilku}-skladniki`);
+    if (!container) return result;
+    Array.from(container.children).forEach(row => {
+        const sel = row.querySelector('select');
+        const inp = row.querySelector('input[type="number"].grams-input');
+        if (sel && inp && sel.value && parseFloat(inp.value) > 0) {
+            result.push({ nazwa: sel.value, ilosc: parseFloat(inp.value) });
+        }
+    });
+    return result;
+}
 
+// Eksport do pliku JSON
+['sniadanie', 'obiad', 'przekaska', 'kolacja'].forEach(typ => {
+    const saveBtn = document.getElementById(`save-${typ}-template-btn`);
+    if (saveBtn) {
+        saveBtn.addEventListener('click', function() {
+            const dane = zbierzDanie(typ);
+            if (!dane.length) {
+                showToast("Brak składników do zapisania.", "error");
+                return;
+            }
+            const json = JSON.stringify(dane, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${typ}-szablon-${getCurrentDateFormattedForInput()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast("Zapisano szablon dania!", "success");
+        });
+    }
+});
+
+// Import z pliku JSON
+['sniadanie', 'obiad', 'przekaska', 'kolacja'].forEach(typ => {
+    const loadBtn = document.getElementById(`load-${typ}-template-btn`);
+    const fileInput = document.getElementById(`load-${typ}-file-input`);
+    if (loadBtn && fileInput) {
+        loadBtn.addEventListener('click', () => {
+            fileInput.value = ""; // reset
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const dane = JSON.parse(e.target.result);
+                    if (!Array.isArray(dane)) throw new Error();
+                    // Czyści stare składniki
+                    const container = document.getElementById(`${typ}-skladniki`);
+                    if (container) container.innerHTML = "";
+                    dane.forEach(skladnik => {
+                        if (skladnik.nazwa && typeof skladnik.ilosc === 'number' && bazaSkladnikow[skladnik.nazwa]) {
+                            dodajSkladnik(typ, skladnik, false);
+                        }
+                    });
+                    przeliczKalorie(typ);
+                    zapiszStanDoLocalStorage();
+                    showToast("Zaimportowano szablon dania!", "success");
+                } catch {
+                    showToast("Błąd pliku lub format nieprawidłowy!", "error");
+                }
+            };
+            reader.readAsText(file);
+        });
+    }
+});
 window.onload = function() {
     initializeTheme();
     setAppHeader(`Nowy Dzień - ${getCurrentDateFormattedForDisplay()}`);
     const limitSumaEl = document.getElementById('dzienna-suma-limit');
     if (limitSumaEl) limitSumaEl.textContent = dziennyLimitKalorii;
     przywrocStanZLocalStorage();
+    typyPosilkow.forEach(typ => sprawdzPustyStanPosilku(typ)); // <-- sprawdzenie pustych stanów po starcie
 };
