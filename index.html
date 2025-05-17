@@ -41,12 +41,12 @@
                 <span class="limit-text"> / <span id="dzienna-suma-limit">1500</span> kcal</span>
             </span>
         </p>
-        <!-- PROGRESS BAR -->
         <div class="progress-bar-wrapper">
             <div id="progress-bar" class="progress-bar"></div>
         </div>
     </div>
 
+    <!-- Modale -->
     <div id="custom-ingredient-modal" class="modal">
         <div class="modal-content">
             <h3>Dodaj Własny Składnik</h3>
@@ -105,36 +105,98 @@
         </div>
     </div>
 
+    <!-- Modale dla szablonów dań (posiłków) -->
+    <div id="meal-template-modal" class="modal">
+        <div class="modal-content">
+            <h3>Zapisz jako Szablon dania</h3>
+            <input type="text" id="meal-template-name" placeholder="Nazwa szablonu" required>
+            <div class="modal-buttons">
+                <button type="button" id="save-meal-template-btn" class="action-button">Zapisz</button>
+                <button type="button" id="cancel-meal-template-btn" class="action-button">Anuluj</button>
+            </div>
+        </div>
+    </div>
+    <div id="load-meal-template-modal" class="modal">
+        <div class="modal-content">
+            <h3>Wczytaj szablon dania</h3>
+            <ul id="meal-templates-list"></ul>
+            <div class="modal-buttons">
+                <button type="button" id="cancel-load-meal-template-btn" class="action-button">Anuluj</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sekcje posiłków z ikonami szablonów -->
     <div class="meal-section" id="sniadanie-sekcja">
-        <h2>Śniadanie</h2>
+        <div class="meal-section-header">
+            <h2>Śniadanie</h2>
+        </div>
         <div class="ingredients-container" id="sniadanie-skladniki"></div>
-        <div class="empty-state" id="empty-sniadanie"></div>
+        <div class="empty-state" id="empty-sniadanie">Brak składników. Dodaj pierwszy!</div>
         <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('sniadanie')">Dodaj Składnik</button>
         <p class="total-calories">Suma śniadania: <span id="sniadanie-kalorie-suma">0</span> kcal</p>
+        <div class="meal-actions">
+            <button type="button" class="meal-action-btn" title="Zapisz danie jako szablon" data-meal="sniadanie" id="save-sniadanie-template-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="23" height="23"><path d="M17 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H7V5h10zm-5-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm2-7H9v2h6z"/></svg>
+            </button>
+            <button type="button" class="meal-action-btn" title="Wstaw szablon dania" data-meal="sniadanie" id="load-sniadanie-template-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24"><path d="M10 4H2v16h20V6H12l-2-2zm8 14H4V6h5.17l2 2H20v10z"/></svg>
+            </button>
+        </div>
     </div>
 
     <div class="meal-section" id="obiad-sekcja">
-        <h2>Obiad</h2>
+        <div class="meal-section-header">
+            <h2>Obiad</h2>
+        </div>
         <div class="ingredients-container" id="obiad-skladniki"></div>
-        <div class="empty-state" id="empty-obiad"></div>
+        <div class="empty-state" id="empty-obiad">Brak składników. Dodaj pierwszy!</div>
         <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('obiad')">Dodaj Składnik</button>
         <p class="total-calories">Suma obiadu: <span id="obiad-kalorie-suma">0</span> kcal</p>
+        <div class="meal-actions">
+            <button type="button" class="meal-action-btn" title="Zapisz danie jako szablon" data-meal="obiad" id="save-obiad-template-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="23" height="23"><path d="M17 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H7V5h10zm-5-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm2-7H9v2h6z"/></svg>
+            </button>
+            <button type="button" class="meal-action-btn" title="Wstaw szablon dania" data-meal="obiad" id="load-obiad-template-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24"><path d="M10 4H2v16h20V6H12l-2-2zm8 14H4V6h5.17l2 2H20v10z"/></svg>
+            </button>
+        </div>
     </div>
 
     <div class="meal-section" id="przekaska-sekcja">
-        <h2>Przekąska</h2>
+        <div class="meal-section-header">
+            <h2>Przekąska</h2>
+        </div>
         <div class="ingredients-container" id="przekaska-skladniki"></div>
-        <div class="empty-state" id="empty-przekaska"></div>
+        <div class="empty-state" id="empty-przekaska">Brak składników. Dodaj pierwszy!</div>
         <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('przekaska')">Dodaj Składnik</button>
         <p class="total-calories">Suma przekąski: <span id="przekaska-kalorie-suma">0</span> kcal</p>
+        <div class="meal-actions">
+            <button type="button" class="meal-action-btn" title="Zapisz danie jako szablon" data-meal="przekaska" id="save-przekaska-template-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="23" height="23"><path d="M17 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H7V5h10zm-5-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm2-7H9v2h6z"/></svg>
+            </button>
+            <button type="button" class="meal-action-btn" title="Wstaw szablon dania" data-meal="przekaska" id="load-przekaska-template-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24"><path d="M10 4H2v16h20V6H12l-2-2zm8 14H4V6h5.17l2 2H20v10z"/></svg>
+            </button>
+        </div>
     </div>
 
     <div class="meal-section" id="kolacja-sekcja">
-        <h2>Kolacja</h2>
+        <div class="meal-section-header">
+            <h2>Kolacja</h2>
+        </div>
         <div class="ingredients-container" id="kolacja-skladniki"></div>
-        <div class="empty-state" id="empty-kolacja"></div>
+        <div class="empty-state" id="empty-kolacja">Brak składników. Dodaj pierwszy!</div>
         <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('kolacja')">Dodaj Składnik</button>
         <p class="total-calories">Suma kolacji: <span id="kolacja-kalorie-suma">0</span> kcal</p>
+        <div class="meal-actions">
+            <button type="button" class="meal-action-btn" title="Zapisz danie jako szablon" data-meal="kolacja" id="save-kolacja-template-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="23" height="23"><path d="M17 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H7V5h10zm-5-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm2-7H9v2h6z"/></svg>
+            </button>
+            <button type="button" class="meal-action-btn" title="Wstaw szablon dania" data-meal="kolacja" id="load-kolacja-template-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24"><path d="M10 4H2v16h20V6H12l-2-2zm8 14H4V6h5.17l2 2H20v10z"/></svg>
+            </button>
+        </div>
     </div>
 
     <div id="shopping-list-section">
@@ -145,10 +207,8 @@
             <button type="button" id="save-shopping-list-button" class="action-button" style="display: none;">Zapisz Listę Zakupów</button>
         </div>
     </div>
-
 </div>
 
-<!-- Floating Action Buttons (FAB) -->
 <div class="fab-container">
     <button type="button" id="fab-open-custom-ingredient" class="fab-btn fab-add" title="Dodaj własny składnik">
         <!-- Ikona plusa SVG -->

@@ -277,6 +277,8 @@ body.dark-mode .icon-action-btn:hover, body.dark-mode .icon-action-btn:focus {
 #cancel-save-date:hover { background-color: var(--button-cancel-hover-bg); }
 #add-custom-ingredient-confirm-button { background-color: var(--button-save-bg); }
 #add-custom-ingredient-confirm-button:hover { background-color: var(--button-save-hover-bg); }
+#modal-save-shopping-list-button { background-color: var(--button-save-bg); }
+#modal-save-shopping-list-button:hover { background-color: var(--button-save-hover-bg); }
 #close-custom-ingredient-modal-button { background-color: var(--button-cancel-bg); }
 #close-custom-ingredient-modal-button:hover { background-color: var(--button-cancel-hover-bg); }
 #cancel-clear-localstorage-btn {
@@ -425,12 +427,6 @@ button.add-ingredient-btn {
     margin-bottom: 10px;
     font-size: 1.05em;
     line-height: 1.6;
-}
-#modal-save-shopping-list-button {
-    background-color: var(--button-shopping-actions-bg);
-}
-#modal-save-shopping-list-button:hover {
-    background-color: var(--button-shopping-actions-hover-bg);
 }
 #close-shopping-list-modal-button {
     background-color: var(--button-cancel-bg);
