@@ -1,0 +1,494 @@
+:root {
+    --font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Jasny motyw */
+    --bg-color-light: #f0f4f8; --container-bg-color-light: #ffffff; --section-bg-color-light: #fdfdff;
+    --text-color-light: #2c3e50; --header-text-color-light: #1a2533; --accent-color-light: #007bff;
+    --accent-hover-color-light: #005ec4; --border-color-light: #d1d9e6;
+    --calorie-color-light: #e74c3c;
+    --calorie-exceeded-color-light: #d32f2f; --button-save-bg-light: #28a745;
+    --button-save-hover-bg-light: #1e7e34; --button-load-bg-light: #007bff;
+    --button-load-hover-bg-light: #005ec4; --button-cancel-bg-light: #6c757d;
+    --button-cancel-hover-bg-light: #545b62; --button-remove-bg-light: #dc3545;
+    --button-remove-hover-bg-light: #c82333;
+
+    /* Kolory dla FAB i powiązanych akcji */
+    --button-shopping-actions-bg-light: #6f42c1; /* Fioletowy dla FAB listy zakupów */
+    --button-shopping-actions-hover-bg-light: #5a2fa3;
+    --button-custom-add-bg-light: #ffc107; /* Żółty dla FAB dodawania własnego */
+    --button-custom-add-hover-bg-light: #e0a800;
+    --fab-custom-add-icon-color-light: #212529; /* Ciemna ikona na żółtym */
+    --fab-shopping-list-icon-color-light: #ffffff; /* Biała ikona na fioletowym */
+
+    --daily-total-bg-light: #e6f7ff;
+    --daily-total-border-light: #b3e0ff; --daily-total-text-light: #004c80;
+    --daily-total-span-light: var(--accent-color-light); --shadow-color-light: rgba(44, 62, 80, 0.15);
+    --input-bg-color-light: #fff; --input-border-color-light: #b0bec5; --input-focus-border-light: var(--accent-color-light);
+    --theme-toggle-track-bg-light: #ccc; --theme-toggle-slider-light: #fff; --theme-toggle-icon-light: "🌙";
+    --shopping-list-bg-light: #f0f4ff;
+    --shopping-list-border-light: #d1d9ff;
+    --modal-bg-light: rgba(0,0,0,0.4); --modal-content-bg-light: #ffffff;
+    --custom-list-item-bg-light: #e9ecef; --optgroup-label-color-light: #0056b3;
+    --button-border-radius: 20px;
+    --greeting-name-color-light: var(--accent-color-light);
+
+    /* Ciemny motyw */
+    --bg-color-dark: #121212; --container-bg-color-dark: #1e1e1e; --section-bg-color-dark: #2a2a2a;
+    --text-color-dark: #e0e0e0; --header-text-color-dark: #ffffff; --accent-color-dark: #36a1ff;
+    --greeting-name-color-dark: var(--accent-color-dark);
+    --accent-hover-color-dark: #57baff; --border-color-dark: #424242;
+    --calorie-color-dark: #ffc107;
+    --calorie-exceeded-color-dark: #f44336; --button-save-bg-dark: #4caf50;
+    --button-save-hover-bg-dark: #388e3c; --button-load-bg-dark: #2196f3;
+    --button-load-hover-bg-dark: #1976d2; --button-cancel-bg-dark: #757575;
+    --button-cancel-hover-bg-dark: #616161; --button-remove-bg-dark: #f44336;
+    --button-remove-hover-bg-dark: #d32f2f;
+
+    /* Kolory dla FAB i powiązanych akcji w trybie ciemnym */
+    --button-shopping-actions-bg-dark: #9370db;
+    --button-shopping-actions-hover-bg-dark: #825fbf;
+    --button-custom-add-bg-dark: #ffca28;
+    --button-custom-add-hover-bg-dark: #ffb300;
+    --fab-custom-add-icon-color-dark: #212529; /* Ciemna ikona na żółtym */
+    --fab-shopping-list-icon-color-dark: #ffffff; /* Biała ikona na fioletowym */
+
+    --daily-total-bg-dark: #212936;
+    --daily-total-border-dark: #37474f; --daily-total-text-dark: #90cdf4;
+    --daily-total-span-dark: var(--accent-color-dark); --shadow-color-dark: rgba(0,0,0,0.4);
+    --input-bg-color-dark: #333333; --input-border-color-dark: #555555; --input-focus-border-dark: var(--accent-color-dark);
+    --theme-toggle-track-bg-dark: #555; --theme-toggle-slider-dark: #e0e0e0; --theme-toggle-icon-dark: "☀️";
+    --shopping-list-bg-dark: #1c232e; --shopping-list-border-dark: #2d3748;
+    --modal-bg-dark: rgba(0,0,0,0.6); --modal-content-bg-dark: #2a2a2a;
+    --custom-list-item-bg-dark: #3b3b3b; --optgroup-label-color-dark: #63b3ed;
+}
+
+body {
+    --bg-color: var(--bg-color-light); --container-bg-color: var(--container-bg-color-light);
+    --section-bg-color: var(--section-bg-color-light); --text-color: var(--text-color-light);
+    --header-text-color: var(--header-text-color-light); --accent-color: var(--accent-color-light);
+    --accent-hover-color: var(--accent-hover-color-light); --border-color: var(--border-color-light);
+    --calorie-color: var(--calorie-color-light);
+    --calorie-exceeded-color: var(--calorie-exceeded-color-light);
+    --greeting-name-color: var(--greeting-name-color-light);
+    --button-save-bg: var(--button-save-bg-light); --button-save-hover-bg: var(--button-save-hover-bg-light);
+    --button-load-bg: var(--button-load-bg-light); --button-load-hover-bg: var(--button-load-hover-bg-light);
+    --button-cancel-bg: var(--button-cancel-bg-light); --button-cancel-hover-bg: var(--button-cancel-hover-bg-light);
+    --button-remove-bg: var(--button-remove-bg-light); --button-remove-hover-bg: var(--button-remove-hover-bg-light);
+    --button-shopping-actions-bg: var(--button-shopping-actions-bg-light); --button-shopping-actions-hover-bg: var(--button-shopping-actions-hover-bg-light);
+    --button-custom-add-bg: var(--button-custom-add-bg-light); --button-custom-add-hover-bg: var(--button-custom-add-hover-bg-light);
+    --fab-custom-add-icon-color: var(--fab-custom-add-icon-color-light);
+    --fab-shopping-list-icon-color: var(--fab-shopping-list-icon-color-light);
+    --daily-total-bg: var(--daily-total-bg-light); --daily-total-border: var(--daily-total-border-light);
+    --daily-total-text: var(--daily-total-text-light); --daily-total-span: var(--daily-total-span-light);
+    --shadow-color: var(--shadow-color-light); --input-bg-color: var(--input-bg-color-light);
+    --input-border-color: var(--input-border-color-light); --input-focus-border: var(--input-focus-border-light);
+    --theme-toggle-track-bg: var(--theme-toggle-track-bg-light); --theme-toggle-slider: var(--theme-toggle-slider-light); --theme-toggle-icon: var(--theme-toggle-icon-light);
+    --shopping-list-bg: var(--shopping-list-bg-light); --shopping-list-border: var(--shopping-list-border-light);
+    --modal-bg: var(--modal-bg-light); --modal-content-bg: var(--modal-content-bg-light);
+    --custom-list-item-bg: var(--custom-list-item-bg-light); --optgroup-label-color: var(--optgroup-label-color-light);
+}
+body.dark-mode {
+    --bg-color: var(--bg-color-dark); --container-bg-color: var(--container-bg-color-dark);
+    --section-bg-color: var(--section-bg-color-dark); --text-color: var(--text-color-dark);
+    --header-text-color: var(--header-text-color-dark); --accent-color: var(--accent-color-dark);
+    --accent-hover-color: var(--accent-hover-color-dark); --border-color: var(--border-color-dark);
+    --calorie-color: var(--calorie-color-dark);
+    --calorie-exceeded-color: var(--calorie-exceeded-color-dark);
+    --greeting-name-color: var(--greeting-name-color-dark);
+    --button-save-bg: var(--button-save-bg-dark); --button-save-hover-bg: var(--button-save-hover-bg-dark);
+    --button-load-bg: var(--button-load-bg-dark); --button-load-hover-bg: var(--button-load-hover-bg-dark);
+    --button-cancel-bg: var(--button-cancel-bg-dark); --button-cancel-hover-bg: var(--button-cancel-hover-bg-dark);
+    --button-remove-bg: var(--button-remove-bg-dark); --button-remove-hover-bg: var(--button-remove-hover-bg-dark);
+    --button-shopping-actions-bg: var(--button-shopping-actions-bg-dark); --button-shopping-actions-hover-bg: var(--button-shopping-actions-hover-bg-dark);
+    --button-custom-add-bg: var(--button-custom-add-bg-dark); --button-custom-add-hover-bg: var(--button-custom-add-hover-bg-dark);
+    --fab-custom-add-icon-color: var(--fab-custom-add-icon-color-dark);
+    --fab-shopping-list-icon-color: var(--fab-shopping-list-icon-color-dark);
+    --daily-total-bg: var(--daily-total-bg-dark); --daily-total-border: var(--daily-total-border-dark);
+    --daily-total-text: var(--daily-total-text-dark); --daily-total-span: var(--daily-total-span-dark);
+    --shadow-color: var(--shadow-color-dark); --input-bg-color: var(--input-bg-color-dark);
+    --input-border-color: var(--input-border-color-dark); --input-focus-border: var(--input-focus-border-dark);
+    --theme-toggle-track-bg: var(--theme-toggle-track-bg-dark); --theme-toggle-slider: var(--theme-toggle-slider-dark); --theme-toggle-icon: var(--theme-toggle-icon-dark);
+    --shopping-list-bg: var(--shopping-list-bg-dark); --shopping-list-border: var(--shopping-list-border-dark);
+    --modal-bg: var(--modal-bg-dark); --modal-content-bg: var(--modal-content-bg-dark);
+    --custom-list-item-bg: var(--custom-list-item-bg-dark); --optgroup-label-color: var(--optgroup-label-color-dark);
+}
+body {
+    font-family: var(--font-family); margin: 0; padding: 20px;
+    background-color: var(--bg-color); color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+input[type="text"], input[type="number"], input[type="date"], select {
+    padding: 10px 12px; border-radius: var(--button-border-radius); border: 1px solid var(--input-border-color);
+    background-color: var(--input-bg-color); color: var(--text-color);
+    font-size: 0.95em; box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease, color 0.3s ease;
+    width: 100%;
+}
+input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, select:focus {
+    outline: none;
+    border-color: var(--input-focus-border);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--input-focus-border) 30%, transparent);
+}
+
+.theme-switch-wrapper { display: flex; align-items: center; margin-left: auto; }
+.theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
+.theme-switch input { display: none; }
+.slider {
+    background-color: var(--theme-toggle-track-bg);
+    bottom: 0; cursor: pointer; left: 0;
+    position: absolute; right: 0; top: 0; transition: .4s;
+    border-radius: 26px;
+}
+.slider:before {
+    background-color: var(--theme-toggle-slider); bottom: 3px; content: var(--theme-toggle-icon);
+    height: 20px; left: 4px; position: absolute; transition: .4s; width: 20px;
+    border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 12px;
+    color: var(--theme-toggle-track-bg);
+}
+input:checked + .slider:before { transform: translateX(23px); }
+
+.top-bar {
+    display: flex; flex-wrap: wrap;
+    justify-content: space-between; align-items: center;
+    margin-bottom: 20px; padding: 10px 15px;
+    background-color: var(--container-bg-color); border-radius: var(--button-border-radius);
+    box-shadow: 0 2px 8px var(--shadow-color);
+}
+.app-header {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 1.15em; font-weight: 500; color: var(--header-text-color);
+    flex-basis: 100%;
+    margin-bottom: 10px;
+}
+.top-bar-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+.top-bar-actions-group {
+    display: flex; gap: 10px; flex-grow: 1;
+}
+.top-bar .action-button { padding: 8px 15px; font-size: 0.9em; white-space: nowrap; flex-grow:1; }
+.theme-switch-wrapper { margin-left: auto; flex-shrink: 0;  }
+
+.action-button {
+    padding: 10px 20px; color: white;
+    border: none; border-radius: var(--button-border-radius); cursor: pointer; font-weight: 500;
+    font-size: 0.95em; text-align: center;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    box-shadow: 0 1px 3px var(--shadow-color);
+}
+.action-button:hover { transform: translateY(-1px); box-shadow: 0 2px 6px var(--shadow-color); }
+.action-button:active { transform: translateY(0px); box-shadow: 0 1px 3px var(--shadow-color); }
+
+
+#save-button { background-color: var(--button-save-bg); }
+#save-button:hover { background-color: var(--button-save-hover-bg); }
+#load-button-label { background-color: var(--button-load-bg); }
+#load-button-label:hover { background-color: var(--button-load-hover-bg); }
+
+.modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: var(--modal-bg); display: none; justify-content: center; align-items: center;
+    z-index: 2000; transition: opacity 0.3s ease; opacity: 0; padding: 15px; box-sizing: border-box;
+}
+.modal.visible { opacity: 1; display: flex; }
+.modal-content {
+    background-color: var(--modal-content-bg); padding: 25px 30px; border-radius: var(--button-border-radius);
+    box-shadow: 0 5px 20px var(--shadow-color); text-align: center;
+    width: 100%; max-width: 480px;
+    border: 1px solid var(--border-color);
+}
+.modal-content h3 {
+    margin-top: 0; margin-bottom: 20px; color: var(--header-text-color); font-size: 1.4em;
+}
+#custom-ingredient-modal-form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+#custom-ingredient-modal-form div { display: flex; flex-direction: column; }
+#custom-ingredient-modal-form label { text-align: left; font-weight: 500; margin-bottom: 4px; font-size: 0.9em;}
+#custom-ingredient-modal-form input { width: 100%; }
+
+.modal-buttons { display: flex; justify-content: center; gap: 15px; margin-top:15px;}
+.modal-buttons button { flex-grow: 1; max-width: 200px; }
+
+#confirm-save-date { background-color: var(--button-save-bg); }
+#confirm-save-date:hover { background-color: var(--button-save-hover-bg); }
+#cancel-save-date { background-color: var(--button-cancel-bg); }
+#cancel-save-date:hover { background-color: var(--button-cancel-hover-bg); }
+#add-custom-ingredient-confirm-button { background-color: var(--button-save-bg); }
+#add-custom-ingredient-confirm-button:hover { background-color: var(--button-save-hover-bg); }
+#close-custom-ingredient-modal-button { background-color: var(--button-cancel-bg); }
+#close-custom-ingredient-modal-button:hover { background-color: var(--button-cancel-hover-bg); }
+
+#session-custom-ingredients-list {
+    margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border-color);
+    text-align: left; max-height: 150px; overflow-y: auto;
+}
+#session-custom-ingredients-list h4 { margin-top:0; margin-bottom:10px; font-size: 1.1em; color: var(--header-text-color); }
+#session-custom-ingredients-list ul { list-style-type: none; padding: 0; margin: 0; }
+#session-custom-ingredients-list li {
+    background-color: var(--custom-list-item-bg); color: var(--text-color);
+    padding: 8px 12px; border-radius: 6px; margin-bottom: 6px; font-size: 0.9em;
+}
+
+.container {
+    max-width: 900px; margin: 20px auto; background-color: var(--container-bg-color);
+    padding: 20px 30px; border-radius: var(--button-border-radius); box-shadow: 0 5px 25px var(--shadow-color);
+    padding-bottom: 100px; /* Daje miejsce na FAB */
+}
+h1 {
+    color: var(--header-text-color); text-align: center; font-size: 1.8em;
+    font-weight: 600; margin-bottom: 20px; line-height: 1.4;
+}
+h1 .greeting-name { color: var(--greeting-name-color); font-weight: 700; display: block; }
+h1 .sub-greeting { font-size: 0.9em; font-weight: 400; display: block; margin-top: 4px;}
+
+.daily-total-calories {
+    background-color: var(--daily-total-bg); border: 1px solid var(--daily-total-border);
+    padding: 20px; margin: 0 auto 30px auto; border-radius: var(--button-border-radius);
+    text-align: center; box-shadow: 0 3px 10px var(--shadow-color); max-width: 500px;
+}
+.daily-total-calories p { margin: 0; font-size: 1.25em; font-weight: 500; color: var(--daily-total-text); }
+.daily-total-calories .calorie-values { display: block; margin-top: 8px; font-size: 2.2em; font-weight: 700; }
+.daily-total-calories #dzienna-suma-aktualna { color: var(--daily-total-span); }
+.daily-total-calories #dzienna-suma-aktualna.calories-exceeded { color: var(--calorie-exceeded-color); }
+.daily-total-calories .limit-text { color: var(--daily-total-text); font-size: 0.7em; font-weight: 500; margin-left: 5px; }
+
+h2 {
+    color: var(--header-text-color); text-align: left;
+    border-bottom: 3px solid var(--accent-color); padding-bottom: 12px;
+    margin-top: 0; margin-bottom: 25px; font-size: 1.8em; font-weight: 600;
+}
+.meal-section {
+    background-color: var(--section-bg-color); border: 1px solid var(--border-color);
+    padding: 25px; margin-bottom: 35px; border-radius: var(--button-border-radius);
+    box-shadow: 0 3px 15px var(--shadow-color);
+}
+.ingredient-row {
+    display: flex; flex-wrap: wrap; align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 15px; padding-bottom: 15px;
+    border-bottom: 1px dashed var(--border-color);
+}
+.ingredient-row:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+.ingredient-row .input-group {
+    display: flex; flex-direction: column;
+    flex: 1 1 180px;
+    min-width: 130px;
+    gap: 4px;
+}
+.ingredient-row label {
+    font-weight: 500; margin-bottom: 0;
+    font-size: 0.9em; text-align: left;
+}
+.ingredient-row select {
+    appearance: none; -webkit-appearance: none; -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%232c3e50%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 10px 10px;
+    padding-right: 35px;
+    width: 100%;
+}
+body.dark-mode .ingredient-row select {
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23e0e0e0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+}
+.ingredient-row select optgroup { font-weight: bold; font-style: italic; color: var(--optgroup-label-color); }
+.ingredient-row select option { background-color: var(--input-bg-color); color: var(--text-color); }
+
+.ingredient-row input[type="number"].grams-input { width: 100%; }
+
+.ingredient-actions {
+    display: flex; align-items: center; gap: 10px;
+    margin-left: auto;
+    flex-basis: auto;
+    flex-shrink: 0;
+}
+.ingredient-row .calories-display {
+    font-weight: 600; color: var(--calorie-color); font-size: 1.05em;
+    white-space: nowrap;
+}
+.ingredient-row button.remove-btn {
+    padding: 8px 18px; background-color: var(--button-remove-bg); color: white;
+    width: auto; flex-shrink: 0;
+}
+
+button.add-ingredient-btn {
+    display: block; width: fit-content; margin: 25px auto 10px;
+    padding: 12px 28px; background-color: var(--accent-color);
+    color: #ffffff;
+}
+.total-calories {
+    font-weight: 600; font-size: 1.3em; text-align: right;
+    margin-top: 25px; color: var(--text-color);
+}
+.total-calories span { color: var(--calorie-color); font-weight: 700; }
+
+#shopping-list-section { margin-top: 40px; }
+#shopping-list-container {
+    padding: 25px; background-color: var(--shopping-list-bg);
+    border: 1px solid var(--shopping-list-border); border-radius: var(--button-border-radius);
+    box-shadow: 0 3px 15px var(--shadow-color); width: 100%; box-sizing: border-box;
+}
+#shopping-list-container h3 {
+    margin-top: 0; color: var(--header-text-color);
+    border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; font-size: 1.5em;
+}
+#shopping-list-display { list-style-type: "\1F6D2\00a0 "; padding-left: 25px; } /* Użycie unicode dla ikony koszyka */
+#shopping-list-display li { margin-bottom: 10px; font-size: 1.05em; line-height: 1.6; }
+#save-shopping-list-button {
+    margin-top: 20px;
+    background-color: var(--button-shopping-actions-bg); /* Użycie zmiennej dla spójności */
+}
+#save-shopping-list-button:hover {
+    background-color: var(--button-shopping-actions-hover-bg); /* Użycie zmiennej dla spójności */
+}
+
+/* Floating Action Buttons Container */
+.fab-container {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 1000;
+}
+.fab-container .action-button {
+    width: 56px;
+    height: 56px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 1.5em;
+    line-height: 56px;
+    text-align: center;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#fab-open-custom-ingredient {
+    background-color: var(--button-custom-add-bg);
+    color: var(--fab-custom-add-icon-color);
+}
+#fab-open-custom-ingredient:hover {
+    background-color: var(--button-custom-add-hover-bg);
+}
+
+#fab-generate-shopping-list {
+    background-color: var(--button-shopping-actions-bg);
+    color: var(--fab-shopping-list-icon-color);
+}
+#fab-generate-shopping-list:hover {
+    background-color: var(--button-shopping-actions-hover-bg);
+}
+
+/* Modal dla listy zakupów (jeśli będzie potrzebny w przyszłości, style są gotowe) */
+#modal-shopping-list-display {
+    list-style-type: "\1F6D2\00a0 "; /* Użycie unicode dla ikony koszyka */
+    padding-left: 25px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    text-align: left;
+    max-height: 300px;
+    overflow-y: auto;
+    color: var(--text-color);
+}
+#modal-shopping-list-display li {
+    margin-bottom: 10px;
+    font-size: 1.05em;
+    line-height: 1.6;
+}
+#modal-save-shopping-list-button { /* Przycisk zapisu w modalu */
+    background-color: var(--button-shopping-actions-bg);
+}
+#modal-save-shopping-list-button:hover {
+    background-color: var(--button-shopping-actions-hover-bg);
+}
+#close-shopping-list-modal-button { /* Przycisk zamknięcia modala */
+    background-color: var(--button-cancel-bg);
+}
+#close-shopping-list-modal-button:hover {
+    background-color: var(--button-cancel-hover-bg);
+}
+
+
+@media (max-width: 767px) {
+    .top-bar {
+        flex-direction: column; gap: 12px; padding: 10px; align-items: stretch;
+    }
+    /* .app-header text-align: center; jest już globalnie zdefiniowane */
+    .top-bar-controls {
+        width: 100%; display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    .top-bar-actions-group {
+        display: flex; width: 100%; gap: 10px; justify-content: center;
+    }
+    .top-bar-actions-group .action-button {
+        flex: 1 1 auto;
+        min-width: 120px;
+        padding: 8px 10px;
+    }
+    .theme-switch-wrapper { margin-left: 0; margin-top: 0; } /* Wyśrodkowanie przez rodzica */
+
+
+    .ingredient-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    .ingredient-row .input-group {
+        width:100%;
+        gap: 5px;
+        flex-grow: 0;
+        margin-bottom: 0;
+    }
+
+    .ingredient-row input[type="number"].grams-input {
+        max-width: 100%;
+    }
+    .ingredient-actions {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        margin-top: 5px;
+        width: 100%;
+        flex-basis: auto;
+        margin-left: 0;
+    }
+    .ingredient-row .calories-display {
+        text-align: left;
+        flex-grow: 0;
+        white-space: nowrap;
+    }
+    .ingredient-row button.remove-btn {
+        width: auto;
+        padding: 8px 18px;
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
+
+    .modal-content { padding: 20px; }
+    .modal-buttons { flex-direction: column; }
+    .modal-buttons button { width:100%; max-width: none; }
+
+    .fab-container {
+        bottom: 15px;
+        right: 15px;
+        gap: 10px;
+    }
+    .fab-container .action-button {
+        width: 50px;
+        height: 50px;
+        font-size: 1.3em;
+        line-height: 50px;
+    }
+}
+input[type="file"]#load-file-input { display: none; }
