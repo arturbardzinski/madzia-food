@@ -569,5 +569,54 @@ body.dark-mode #fab-generate-shopping-list {
         padding-right: 0;
     }
 }
+.toast {
+    visibility: hidden;
+    min-width: 220px;
+    background: #323232;
+    color: #fff;
+    text-align: center;
+    border-radius: 12px;
+    padding: 12px 20px;
+    position: fixed;
+    left: 50%;
+    bottom: 40px;
+    transform: translateX(-50%);
+    font-size: 1.1em;
+    z-index: 3000;
+    opacity: 0;
+    transition: opacity 0.5s, visibility 0.5s;
+    box-shadow: 0 3px 15px rgba(44,62,80,0.15);
+}
+.toast.show {
+    visibility: visible;
+    opacity: 1;
+}
+.toast.toast-success { background: #28a745; }
+.toast.toast-error { background: #d32f2f; }
 
+.progress-bar-wrapper {
+    width: 100%; max-width: 410px; margin: 12px auto 0 auto; height: 17px;
+    background: #e9ecef;
+    border-radius: 11px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    border: 1px solid #c3d0e0;
+}
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #007bff 70%, #42e5a8 100%);
+    width: 0%;
+    transition: width 0.5s, background 0.4s;
+}
+.progress-bar.exceeded {
+    background: linear-gradient(90deg, #d32f2f 50%, #ffb347 100%);
+}
+
+.empty-state {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    margin: 10px 0 15px 0;
+    font-size: 1.1em;
+}
 input[type="file"]#load-file-input { display: none; }

@@ -8,6 +8,9 @@
 </head>
 <body>
 
+<!-- TOAST - Powiadomienia -->
+<div id="toast" class="toast"></div>
+
 <div class="top-bar">
     <div id="app-header" class="app-header">Nowy Dzień - ...</div>
     <div class="top-bar-controls">
@@ -34,9 +37,14 @@
     <div class="daily-total-calories">
         <p>Łączna suma kalorii na dziś:
             <span class="calorie-values">
-                <span id="dzienna-suma-aktualna">0</span><span class="limit-text"> / <span id="dzienna-suma-limit">1500</span> kcal</span>
+                <span id="dzienna-suma-aktualna">0</span>
+                <span class="limit-text"> / <span id="dzienna-suma-limit">1500</span> kcal</span>
             </span>
         </p>
+        <!-- PROGRESS BAR -->
+        <div class="progress-bar-wrapper">
+            <div id="progress-bar" class="progress-bar"></div>
+        </div>
     </div>
 
     <div id="custom-ingredient-modal" class="modal">
@@ -77,8 +85,7 @@
     <div id="shopping-list-modal" class="modal">
         <div class="modal-content">
             <h3>Lista Zakupów</h3>
-            <ul id="modal-shopping-list-display">
-            </ul>
+            <ul id="modal-shopping-list-display"></ul>
             <div class="modal-buttons">
                 <button type="button" id="modal-save-shopping-list-button" class="action-button">Zapisz Listę</button>
                 <button type="button" id="close-shopping-list-modal-button" class="action-button">Zamknij</button>
@@ -89,6 +96,7 @@
     <div class="meal-section" id="sniadanie-sekcja">
         <h2>Śniadanie</h2>
         <div class="ingredients-container" id="sniadanie-skladniki"></div>
+        <div class="empty-state" id="empty-sniadanie"></div>
         <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('sniadanie')">Dodaj Składnik</button>
         <p class="total-calories">Suma śniadania: <span id="sniadanie-kalorie-suma">0</span> kcal</p>
     </div>
@@ -96,6 +104,7 @@
     <div class="meal-section" id="obiad-sekcja">
         <h2>Obiad</h2>
         <div class="ingredients-container" id="obiad-skladniki"></div>
+        <div class="empty-state" id="empty-obiad"></div>
         <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('obiad')">Dodaj Składnik</button>
         <p class="total-calories">Suma obiadu: <span id="obiad-kalorie-suma">0</span> kcal</p>
     </div>
@@ -103,6 +112,7 @@
     <div class="meal-section" id="przekaska-sekcja">
         <h2>Przekąska</h2>
         <div class="ingredients-container" id="przekaska-skladniki"></div>
+        <div class="empty-state" id="empty-przekaska"></div>
         <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('przekaska')">Dodaj Składnik</button>
         <p class="total-calories">Suma przekąski: <span id="przekaska-kalorie-suma">0</span> kcal</p>
     </div>
@@ -110,6 +120,7 @@
     <div class="meal-section" id="kolacja-sekcja">
         <h2>Kolacja</h2>
         <div class="ingredients-container" id="kolacja-skladniki"></div>
+        <div class="empty-state" id="empty-kolacja"></div>
         <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('kolacja')">Dodaj Składnik</button>
         <p class="total-calories">Suma kolacji: <span id="kolacja-kalorie-suma">0</span> kcal</p>
     </div>
@@ -117,6 +128,7 @@
     <div id="shopping-list-section">
         <div id="shopping-list-container" style="display: none;">
             <h3>Lista Zakupów:</h3>
+            <div class="empty-state" id="empty-shopping-list"></div>
             <ul id="shopping-list-display"></ul>
             <button type="button" id="save-shopping-list-button" class="action-button" style="display: none;">Zapisz Listę Zakupów</button>
         </div>
