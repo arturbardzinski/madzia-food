@@ -47,6 +47,7 @@
         </div>
     </div>
 
+    <!-- MODAL: Dodawanie własnego składnika -->
     <div id="custom-ingredient-modal" class="modal">
         <div class="modal-content">
             <h3>Dodaj Własny Składnik</h3>
@@ -71,6 +72,7 @@
         </div>
     </div>
 
+    <!-- MODAL: Wybór daty -->
     <div id="date-picker-modal" class="modal">
         <div class="modal-content">
             <h3>Wybierz datę dla jadłospisu:</h3>
@@ -82,6 +84,7 @@
         </div>
     </div>
 
+    <!-- MODAL: Lista zakupów -->
     <div id="shopping-list-modal" class="modal">
         <div class="modal-content">
             <h3>Lista Zakupów</h3>
@@ -93,6 +96,18 @@
         </div>
     </div>
 
+    <!-- MODAL: Szablony jadłospisów -->
+    <div id="templates-modal" class="modal">
+        <div class="modal-content">
+            <h3>Szablony Jadłospisu</h3>
+            <div id="templates-list"></div>
+            <div class="modal-buttons">
+                <button type="button" id="close-templates-modal-button" class="action-button">Zamknij</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sekcje posiłków -->
     <div class="meal-section" id="sniadanie-sekcja">
         <h2>Śniadanie</h2>
         <div class="ingredients-container" id="sniadanie-skladniki"></div>
@@ -100,7 +115,6 @@
         <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('sniadanie')">Dodaj Składnik</button>
         <p class="total-calories">Suma śniadania: <span id="sniadanie-kalorie-suma">0</span> kcal</p>
     </div>
-
     <div class="meal-section" id="obiad-sekcja">
         <h2>Obiad</h2>
         <div class="ingredients-container" id="obiad-skladniki"></div>
@@ -108,7 +122,6 @@
         <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('obiad')">Dodaj Składnik</button>
         <p class="total-calories">Suma obiadu: <span id="obiad-kalorie-suma">0</span> kcal</p>
     </div>
-
     <div class="meal-section" id="przekaska-sekcja">
         <h2>Przekąska</h2>
         <div class="ingredients-container" id="przekaska-skladniki"></div>
@@ -116,7 +129,6 @@
         <button type="button" class="add-ingredient-btn action-button" onclick="dodajSkladnik('przekaska')">Dodaj Składnik</button>
         <p class="total-calories">Suma przekąski: <span id="przekaska-kalorie-suma">0</span> kcal</p>
     </div>
-
     <div class="meal-section" id="kolacja-sekcja">
         <h2>Kolacja</h2>
         <div class="ingredients-container" id="kolacja-skladniki"></div>
@@ -125,6 +137,19 @@
         <p class="total-calories">Suma kolacji: <span id="kolacja-kalorie-suma">0</span> kcal</p>
     </div>
 
+    <!-- Szablony - sekcja przycisków -->
+    <div style="text-align:right; margin-bottom:30px;">
+        <button type="button" id="save-template-btn" class="icon-action-btn" title="Zapisz jako szablon">
+            <!-- Ikona dyskietki/floppy SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3-8H6V5h7v6z"/></svg>
+        </button>
+        <button type="button" id="load-template-btn" class="icon-action-btn" title="Wczytaj z szablonu">
+            <!-- Ikona folderu SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 4H2v16h20V6h-8l-2-2zM2 20V4c0-1.1.9-2 2-2h6l2 2h8c1.1 0 2 .9 2 2v14c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2z"/></svg>
+        </button>
+    </div>
+
+    <!-- Sekcja listy zakupów -->
     <div id="shopping-list-section">
         <div id="shopping-list-container" style="display: none;">
             <h3>Lista Zakupów:</h3>
@@ -133,12 +158,22 @@
             <button type="button" id="save-shopping-list-button" class="action-button" style="display: none;">Zapisz Listę Zakupów</button>
         </div>
     </div>
-
 </div>
 
+<!-- Floating Action Buttons (FAB) -->
 <div class="fab-container">
-    <button type="button" id="fab-open-custom-ingredient" class="action-button" title="Dodaj własny składnik">➕</button>
-    <button type="button" id="fab-generate-shopping-list" class="action-button" title="Generuj listę zakupów">🛒</button>
+    <button type="button" id="fab-open-custom-ingredient" class="fab-btn fab-add" title="Dodaj własny składnik">
+        <!-- Ikona plusa SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></svg>
+    </button>
+    <button type="button" id="fab-generate-shopping-list" class="fab-btn fab-shopping" title="Generuj listę zakupów">
+        <!-- Ikona koszyka SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm1.83-2.25l-1.35-6.29A2.003 2.003 0 0 0 15.54 8h-7.08c-.88 0-1.65.58-1.94 1.42l-1.35 6.29A1 1 0 0 0 5 17h14c.55 0 1-.45 1-1 0-.15-.03-.29-.08-.42zM7.16 10h9.68l1.22 5.64c.06.28-.11.56-.39.61-.02 0-.03.01-.05.01H6.17c-.28 0-.5-.22-.5-.5 0-.03 0-.05.01-.08L7.16 10z"/></svg>
+    </button>
+    <button type="button" id="fab-clear-localstorage" class="fab-btn fab-trash" title="Wyczyść wszystkie dane lokalne">
+        <!-- Ikona kosza SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-4.5l-1-1z"/></svg>
+    </button>
 </div>
 
 <script src="script.js"></script>

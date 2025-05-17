@@ -10,17 +10,7 @@
     --button-load-hover-bg-light: #005ec4; --button-cancel-bg-light: #6c757d;
     --button-cancel-hover-bg-light: #545b62; --button-remove-bg-light: #dc3545;
     --button-remove-hover-bg-light: #c82333;
-
-    /* Kolory dla FAB i powiązanych akcji - NIE UŻYWAMY do glassmorphism */
-    --button-shopping-actions-bg-light: #6f42c1;
-    --button-shopping-actions-hover-bg-light: #5a2fa3;
-    --button-custom-add-bg-light: #ffc107;
-    --button-custom-add-hover-bg-light: #e0a800;
-    --fab-custom-add-icon-color-light: #212529;
-    --fab-shopping-list-icon-color-light: #ffffff;
-
-    --daily-total-bg-light: #e6f7ff;
-    --daily-total-border-light: #b3e0ff; --daily-total-text-light: #004c80;
+    --daily-total-bg-light: #e6f7ff; --daily-total-border-light: #b3e0ff; --daily-total-text-light: #004c80;
     --daily-total-span-light: var(--accent-color-light); --shadow-color-light: rgba(44, 62, 80, 0.15);
     --input-bg-color-light: #fff; --input-border-color-light: #b0bec5; --input-focus-border-light: var(--accent-color-light);
     --theme-toggle-track-bg-light: #ccc; --theme-toggle-slider-light: #fff; --theme-toggle-icon-light: "🌙";
@@ -30,11 +20,12 @@
     --custom-list-item-bg-light: #e9ecef; --optgroup-label-color-light: #0056b3;
     --button-border-radius: 20px;
     --greeting-name-color-light: var(--accent-color-light);
-
     /* Glassmorphism dla FAB */
-    --fab-glass-bg-light: rgba(255, 255, 255, 0.30);
-    --fab-glass-border-light: rgba(200, 200, 255, 0.35);
-
+    --fab-glass-bg-light: rgba(255, 255, 255, 0.50);
+    --fab-glass-border-light: rgba(200, 200, 255, 0.28);
+    --fab-add-color-light: #212529;
+    --fab-shopping-color-light: #007bff;
+    --fab-trash-color-light: #d32f2f;
     /* Ciemny motyw */
     --bg-color-dark: #121212; --container-bg-color-dark: #1e1e1e; --section-bg-color-dark: #2a2a2a;
     --text-color-dark: #e0e0e0; --header-text-color-dark: #ffffff; --accent-color-dark: #36a1ff;
@@ -46,18 +37,11 @@
     --button-load-hover-bg-dark: #1976d2; --button-cancel-bg-dark: #757575;
     --button-cancel-hover-bg-dark: #616161; --button-remove-bg-dark: #f44336;
     --button-remove-hover-bg-dark: #d32f2f;
-
-    /* FAB Glassmorphism Dark */
     --fab-glass-bg-dark: rgba(40, 40, 60, 0.50);
-    --fab-glass-border-dark: rgba(60, 60, 80, 0.60);
-
-    --button-shopping-actions-bg-dark: #9370db;
-    --button-shopping-actions-hover-bg-dark: #825fbf;
-    --button-custom-add-bg-dark: #ffca28;
-    --button-custom-add-hover-bg-dark: #ffb300;
-    --fab-custom-add-icon-color-dark: #ffffff;
-    --fab-shopping-list-icon-color-dark: #ffffff;
-
+    --fab-glass-border-dark: rgba(60, 60, 80, 0.32);
+    --fab-add-color-dark: #fff;
+    --fab-shopping-color-dark: #36a1ff;
+    --fab-trash-color-dark: #ff7171;
     --daily-total-bg-dark: #212936;
     --daily-total-border-dark: #37474f; --daily-total-text-dark: #90cdf4;
     --daily-total-span-dark: var(--accent-color-dark); --shadow-color-dark: rgba(0,0,0,0.4);
@@ -73,19 +57,15 @@ body {
     --section-bg-color: var(--section-bg-color-light); --text-color: var(--text-color-light);
     --header-text-color: var(--header-text-color-light); --accent-color: var(--accent-color-light);
     --accent-hover-color: var(--accent-hover-color-light); --border-color: var(--border-color-light);
-    --calorie-color: var(--calorie-color-light);
-    --calorie-exceeded-color: var(--calorie-exceeded-color-light);
+    --calorie-color: var(--calorie-color-light); --calorie-exceeded-color: var(--calorie-exceeded-color-light);
     --greeting-name-color: var(--greeting-name-color-light);
     --button-save-bg: var(--button-save-bg-light); --button-save-hover-bg: var(--button-save-hover-bg-light);
     --button-load-bg: var(--button-load-bg-light); --button-load-hover-bg: var(--button-load-hover-bg-light);
     --button-cancel-bg: var(--button-cancel-bg-light); --button-cancel-hover-bg: var(--button-cancel-hover-bg-light);
     --button-remove-bg: var(--button-remove-bg-light); --button-remove-hover-bg: var(--button-remove-hover-bg-light);
-    --button-shopping-actions-bg: var(--button-shopping-actions-bg-light); --button-shopping-actions-hover-bg: var(--button-shopping-actions-hover-bg-light);
-    --button-custom-add-bg: var(--button-custom-add-bg-light); --button-custom-add-hover-bg: var(--button-custom-add-hover-bg-light);
-    --fab-custom-add-icon-color: var(--fab-custom-add-icon-color-light);
-    --fab-shopping-list-icon-color: var(--fab-shopping-list-icon-color-light);
-    --fab-glass-bg: var(--fab-glass-bg-light);
-    --fab-glass-border: var(--fab-glass-border-light);
+    --fab-glass-bg: var(--fab-glass-bg-light); --fab-glass-border: var(--fab-glass-border-light);
+    --fab-add-color: var(--fab-add-color-light); --fab-shopping-color: var(--fab-shopping-color-light);
+    --fab-trash-color: var(--fab-trash-color-light);
     --daily-total-bg: var(--daily-total-bg-light); --daily-total-border: var(--daily-total-border-light);
     --daily-total-text: var(--daily-total-text-light); --daily-total-span: var(--daily-total-span-light);
     --shadow-color: var(--shadow-color-light); --input-bg-color: var(--input-bg-color-light);
@@ -100,19 +80,15 @@ body.dark-mode {
     --section-bg-color: var(--section-bg-color-dark); --text-color: var(--text-color-dark);
     --header-text-color: var(--header-text-color-dark); --accent-color: var(--accent-color-dark);
     --accent-hover-color: var(--accent-hover-color-dark); --border-color: var(--border-color-dark);
-    --calorie-color: var(--calorie-color-dark);
-    --calorie-exceeded-color: var(--calorie-exceeded-color-dark);
+    --calorie-color: var(--calorie-color-dark); --calorie-exceeded-color: var(--calorie-exceeded-color-dark);
     --greeting-name-color: var(--greeting-name-color-dark);
     --button-save-bg: var(--button-save-bg-dark); --button-save-hover-bg: var(--button-save-hover-bg-dark);
     --button-load-bg: var(--button-load-bg-dark); --button-load-hover-bg: var(--button-load-hover-bg-dark);
     --button-cancel-bg: var(--button-cancel-bg-dark); --button-cancel-hover-bg: var(--button-cancel-hover-bg-dark);
     --button-remove-bg: var(--button-remove-bg-dark); --button-remove-hover-bg: var(--button-remove-hover-bg-dark);
-    --button-shopping-actions-bg: var(--button-shopping-actions-bg-dark); --button-shopping-actions-hover-bg: var(--button-shopping-actions-hover-bg-dark);
-    --button-custom-add-bg: var(--button-custom-add-bg-dark); --button-custom-add-hover-bg: var(--button-custom-add-hover-bg-dark);
-    --fab-custom-add-icon-color: var(--fab-custom-add-icon-color-dark);
-    --fab-shopping-list-icon-color: var(--fab-shopping-list-icon-color-dark);
-    --fab-glass-bg: var(--fab-glass-bg-dark);
-    --fab-glass-border: var(--fab-glass-border-dark);
+    --fab-glass-bg: var(--fab-glass-bg-dark); --fab-glass-border: var(--fab-glass-border-dark);
+    --fab-add-color: var(--fab-add-color-dark); --fab-shopping-color: var(--fab-shopping-color-dark);
+    --fab-trash-color: var(--fab-trash-color-dark);
     --daily-total-bg: var(--daily-total-bg-dark); --daily-total-border: var(--daily-total-border-dark);
     --daily-total-text: var(--daily-total-text-dark); --daily-total-span: var(--daily-total-span-dark);
     --shadow-color: var(--shadow-color-dark); --input-bg-color: var(--input-bg-color-dark);
@@ -122,6 +98,7 @@ body.dark-mode {
     --modal-bg: var(--modal-bg-dark); --modal-content-bg: var(--modal-content-bg-dark);
     --custom-list-item-bg: var(--custom-list-item-bg-dark); --optgroup-label-color: var(--optgroup-label-color-dark);
 }
+
 body {
     font-family: var(--font-family); margin: 0; padding: 20px;
     background-color: var(--bg-color); color: var(--text-color);
@@ -141,6 +118,7 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, 
     box-shadow: 0 0 0 2px color-mix(in srgb, var(--input-focus-border) 30%, transparent);
 }
 
+/* Przycisk zmiany motywu */
 .theme-switch-wrapper { display: flex; align-items: center; margin-left: auto; }
 .theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
 .theme-switch input { display: none; }
@@ -158,6 +136,7 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="date"]:focus, 
 }
 input:checked + .slider:before { transform: translateX(23px); }
 
+/* Top bar i header */
 .top-bar {
     display: flex; flex-wrap: wrap;
     justify-content: space-between; align-items: center;
@@ -195,12 +174,81 @@ input:checked + .slider:before { transform: translateX(23px); }
 .action-button:hover { transform: translateY(-1px); box-shadow: 0 2px 6px var(--shadow-color); }
 .action-button:active { transform: translateY(0px); box-shadow: 0 1px 3px var(--shadow-color); }
 
-
 #save-button { background-color: var(--button-save-bg); }
 #save-button:hover { background-color: var(--button-save-hover-bg); }
 #load-button-label { background-color: var(--button-load-bg); }
 #load-button-label:hover { background-color: var(--button-load-hover-bg); }
 
+input[type="file"]#load-file-input { display: none; }
+
+/* FABs */
+.fab-container {
+    position: fixed;
+    right: 26px;
+    bottom: 26px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 18px;
+    z-index: 1000;
+}
+.fab-btn {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    min-height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--fab-glass-bg);
+    border: 1.5px solid var(--fab-glass-border);
+    box-shadow: 0 4px 18px var(--shadow-color);
+    cursor: pointer;
+    transition: background 0.22s, border 0.2s, color 0.2s, box-shadow 0.15s;
+    font-size: 1.7em;
+    color: var(--fab-add-color);
+    margin: 0;
+    padding: 0;
+}
+.fab-btn svg { width: 28px; height: 28px; fill: currentColor; pointer-events: none; }
+.fab-btn.fab-add { color: var(--fab-add-color); }
+.fab-btn.fab-shopping { color: var(--fab-shopping-color); }
+.fab-btn.fab-trash { color: var(--fab-trash-color); }
+.fab-btn:hover, .fab-btn:focus {
+    box-shadow: 0 8px 28px var(--shadow-color);
+    background: color-mix(in srgb, var(--fab-glass-bg) 92%, #fff 8%);
+    border-color: color-mix(in srgb, var(--fab-glass-border) 90%, #fff 10%);
+}
+.fab-btn:active { box-shadow: 0 2px 7px var(--shadow-color); }
+
+/* Przyciski ikonowe (np. dodaj szablon, wczytaj szablon) */
+.icon-action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-color);
+    transition: background 0.17s, color 0.17s;
+    font-size: 1.28em;
+}
+.icon-action-btn svg { width: 24px; height: 24px; fill: currentColor; pointer-events: none; }
+.icon-action-btn:hover, .icon-action-btn:focus {
+    background: rgba(0,0,0,0.07);
+    color: var(--accent-hover-color);
+}
+body.dark-mode .icon-action-btn { color: var(--accent-color-dark); }
+body.dark-mode .icon-action-btn:hover, body.dark-mode .icon-action-btn:focus {
+    background: rgba(44,62,80,0.14);
+    color: var(--accent-hover-color-dark);
+}
+
+/* Modale i snackbary */
 .modal {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background-color: var(--modal-bg); display: none; justify-content: center; align-items: center;
@@ -220,7 +268,6 @@ input:checked + .slider:before { transform: translateX(23px); }
 #custom-ingredient-modal-form div { display: flex; flex-direction: column; }
 #custom-ingredient-modal-form label { text-align: left; font-weight: 500; margin-bottom: 4px; font-size: 0.9em;}
 #custom-ingredient-modal-form input { width: 100%; }
-
 .modal-buttons { display: flex; justify-content: center; gap: 15px; margin-top:15px;}
 .modal-buttons button { flex-grow: 1; max-width: 200px; }
 
@@ -357,79 +404,7 @@ button.add-ingredient-btn {
     background-color: var(--button-shopping-actions-hover-bg); /* Użycie zmiennej dla spójności */
 }
 
-/* --- GLASSMORPHISM DLA FAB --- */
-.fab-container .action-button,
-#fab-open-custom-ingredient,
-#fab-generate-shopping-list {
-    background: var(--fab-glass-bg);
-    border: 1.5px solid var(--fab-glass-border);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.10);
-    backdrop-filter: blur(9px) saturate(150%);
-    -webkit-backdrop-filter: blur(9px) saturate(150%);
-    color: var(--fab-shopping-list-icon-color);
-    transition: background 0.3s, border 0.3s, box-shadow 0.3s, color 0.3s;
-}
-#fab-open-custom-ingredient {
-    color: var(--fab-custom-add-icon-color);
-}
-#fab-generate-shopping-list {
-    color: var(--fab-shopping-list-icon-color);
-}
-body.dark-mode .fab-container .action-button,
-body.dark-mode #fab-open-custom-ingredient,
-body.dark-mode #fab-generate-shopping-list {
-    background: var(--fab-glass-bg);
-    border: 1.5px solid var(--fab-glass-border);
-    color: var(--fab-shopping-list-icon-color);
-}
-body.dark-mode #fab-open-custom-ingredient {
-    color: var(--fab-custom-add-icon-color);
-}
-body.dark-mode #fab-generate-shopping-list {
-    color: var(--fab-shopping-list-icon-color);
-}
-
-/* Spraw by SVG ikony były kolorowane przez color z rodzica */
-.fab-container .action-button svg,
-.fab-container .action-button svg path {
-    fill: currentColor !important;
-    color: inherit !important;
-    transition: fill 0.2s, color 0.2s;
-}
-/* --- END GLASSMORPHISM DLA FAB --- */
-
-/* Floating Action Buttons Container */
-.fab-container {
-    position: fixed;
-    bottom: 25px;
-    right: 25px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    z-index: 1000;
-}
-.fab-container .action-button {
-    width: 56px;
-    height: 56px;
-    padding: 0;
-    border-radius: 50%;
-    font-size: 1.5em;
-    line-height: 56px;
-    text-align: center;
-    box-shadow: 0 4px 12px var(--shadow-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#fab-open-custom-ingredient:hover,
-#fab-generate-shopping-list:hover {
-    background: color-mix(in srgb, var(--fab-glass-bg) 85%, #fff 15%);
-    border-color: color-mix(in srgb, var(--fab-glass-border) 85%, #fff 15%);
-    box-shadow: 0 4px 20px 4px rgba(31, 38, 135, 0.16);
-}
-
-/* Modal dla listy zakupów (jeśli będzie potrzebny w przyszłości, style są gotowe) */
+/* Modal dla listy zakupów */
 #modal-shopping-list-display {
     list-style-type: "\1F6D2\00a0 ";
     padding-left: 25px;
@@ -456,6 +431,57 @@ body.dark-mode #fab-generate-shopping-list {
 }
 #close-shopping-list-modal-button:hover {
     background-color: var(--button-cancel-hover-bg);
+}
+
+.toast {
+    visibility: hidden;
+    min-width: 220px;
+    background: #323232;
+    color: #fff;
+    text-align: center;
+    border-radius: 12px;
+    padding: 12px 20px;
+    position: fixed;
+    left: 50%;
+    bottom: 40px;
+    transform: translateX(-50%);
+    font-size: 1.1em;
+    z-index: 3000;
+    opacity: 0;
+    transition: opacity 0.5s, visibility 0.5s;
+    box-shadow: 0 3px 15px rgba(44,62,80,0.15);
+}
+.toast.show {
+    visibility: visible;
+    opacity: 1;
+}
+.toast.toast-success { background: #28a745; }
+.toast.toast-error { background: #d32f2f; }
+
+.progress-bar-wrapper {
+    width: 100%; max-width: 410px; margin: 12px auto 0 auto; height: 17px;
+    background: #e9ecef;
+    border-radius: 11px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--shadow-color);
+    border: 1px solid #c3d0e0;
+}
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #007bff 70%, #42e5a8 100%);
+    width: 0%;
+    transition: width 0.5s, background 0.4s;
+}
+.progress-bar.exceeded {
+    background: linear-gradient(90deg, #d32f2f 50%, #ffb347 100%);
+}
+
+.empty-state {
+    text-align: center;
+    color: #888;
+    font-style: italic;
+    margin: 10px 0 15px 0;
+    font-size: 1.1em;
 }
 
 @media (max-width: 767px) {
@@ -516,33 +542,27 @@ body.dark-mode #fab-generate-shopping-list {
     .modal-buttons { flex-direction: column; }
     .modal-buttons button { width:100%; max-width: none; }
     .fab-container {
-        bottom: 15px;
-        right: 15px;
-        gap: 10px;
+        bottom: 13px;
+        right: 13px;
+        gap: 11px;
     }
-    .fab-container .action-button {
-        width: 50px;
-        height: 50px;
-        font-size: 1.3em;
-        line-height: 50px;
-    }
+    .fab-btn { width: 46px; height: 46px; min-width: 46px; min-height: 46px; font-size: 1.17em; }
+    .icon-action-btn { width: 38px; height: 38px; font-size: 1.07em; }
 }
-/* Zmiany dla szerokich ekranów */
+
 @media (min-width: 768px) {
     .top-bar {
         flex-direction: row;
         align-items: center;
         gap: 24px;
     }
-
     .app-header {
         flex-basis: auto;
         margin-bottom: 0;
-        text-align: left; /* Jeśli chcesz na środku zostaw center */
+        text-align: left;
         min-width: 230px;
         font-size: 1.18em;
     }
-
     .top-bar-controls {
         flex-direction: row;
         align-items: center;
@@ -555,7 +575,6 @@ body.dark-mode #fab-generate-shopping-list {
         gap: 12px;
         flex-grow: 0;
     }
-    /* Szerokość przycisków "Zapisz Dzień" i "Wczytaj Dzień" */
     #save-button,
     #load-button-label {
         min-width: 140px;
@@ -569,54 +588,3 @@ body.dark-mode #fab-generate-shopping-list {
         padding-right: 0;
     }
 }
-.toast {
-    visibility: hidden;
-    min-width: 220px;
-    background: #323232;
-    color: #fff;
-    text-align: center;
-    border-radius: 12px;
-    padding: 12px 20px;
-    position: fixed;
-    left: 50%;
-    bottom: 40px;
-    transform: translateX(-50%);
-    font-size: 1.1em;
-    z-index: 3000;
-    opacity: 0;
-    transition: opacity 0.5s, visibility 0.5s;
-    box-shadow: 0 3px 15px rgba(44,62,80,0.15);
-}
-.toast.show {
-    visibility: visible;
-    opacity: 1;
-}
-.toast.toast-success { background: #28a745; }
-.toast.toast-error { background: #d32f2f; }
-
-.progress-bar-wrapper {
-    width: 100%; max-width: 410px; margin: 12px auto 0 auto; height: 17px;
-    background: #e9ecef;
-    border-radius: 11px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px var(--shadow-color);
-    border: 1px solid #c3d0e0;
-}
-.progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, #007bff 70%, #42e5a8 100%);
-    width: 0%;
-    transition: width 0.5s, background 0.4s;
-}
-.progress-bar.exceeded {
-    background: linear-gradient(90deg, #d32f2f 50%, #ffb347 100%);
-}
-
-.empty-state {
-    text-align: center;
-    color: #888;
-    font-style: italic;
-    margin: 10px 0 15px 0;
-    font-size: 1.1em;
-}
-input[type="file"]#load-file-input { display: none; }
